@@ -1,6 +1,6 @@
 ## Dans (Goaded) Car Barn - CS3450
 
-Requirements for the ReadMe for Milestone 1:
+Requirements for the ReadMe for Milestone 1 (according to Canvas):
 
 - An explanation of the organization and name scheme for the workspace
 - Version-control procedures
