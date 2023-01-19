@@ -5,6 +5,7 @@ Requirements for the ReadMe for Milestone 1 (according to Canvas):
 - An explanation of the organization and name scheme for the workspace
 - Version-control procedures
 - Tool stack description and setup procedure
+	python, django, vju.js...
 - Build instructions
 - Unit testing instructions
 - System testing instructions
