@@ -1,5 +1,6 @@
 {
   "name": "dans-car-barn-backend",
+  "type": "module",
   "version": "1.0.0",
   "description": "The REST API for Dan's Car Barn.",
   "main": "index.js",

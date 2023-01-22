@@ -1,8 +1,8 @@
-const express = require('express')
+import express from 'express';
+import router from './routes';
+
 const app = express()
 const port = 3000
-
-const router = require('./routes');
 
 app.use(router);
 
