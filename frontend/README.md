@@ -1,6 +1,6 @@
-# frontend
+# Dan's Car Barn Frontend
 
-This template should help get you started developing with Vue 3 in Vite.
+This is the client-side web application for Dan's Car Barn, built on [Vue 3](https://vuejs.org/guide/introduction.html).
 
 ## Recommended IDE Setup
 
