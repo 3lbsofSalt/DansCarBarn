@@ -35,7 +35,7 @@ git checkout -b {USERNAME}/{FEATURE}	# create and switch to a feature branch
 
 For example, if my name was John P. Trystate and I was working on a feature branch that implemented the Transport-inator, I would create the branch `jtrystate/transport-inator`.
 
-After implementing the feature, prepare for code review by running `npm run lint` to eliminate any last-minute bugs and adhere to the style guide.
+After implementing the feature, prepare for code review by running `yarn run lint` in both `frontend/` and `backend/` to eliminate any last-minute bugs and adhere to the style guide.
 
 When finished, open a pull request from the feature branch into the `develop` branch. The PR will get merged once it is reviewed by another team member.
 

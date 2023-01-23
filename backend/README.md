@@ -5,29 +5,29 @@ This the backend REST API for Dan's Car Barn, built on [Express.js](https://expr
 ## Project Setup
 
 ```sh
-npm install
+yarn install
 ```
 
 ### Compile and Hot-Reload for Development
 
 ```sh
-npm run dev
+yarn run dev
 ```
 
 ### Compile for Production
 
 ```sh
-npm run build
+yarn run build
 ```
 
 ### Run Production Build
 
 ```sh
-npm run start
+yarn run start
 ```
 
 ### Lint with [ESLint](https://eslint.org/)
 
 ```sh
-npm run lint
+yarn run lint
 ```
