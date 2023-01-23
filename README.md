@@ -33,7 +33,7 @@ git checkout develop					# switch to 'develop' branch
 git checkout -b {USERNAME}/{FEATURE}	# create and switch to a feature branch
 ```
 
-For example, if my name was John P. Trystate and I was working on a feature branch that implemented the Transport-inator, I would create the branch `jtrystate/transport-inator`.
+For example, if John P. Trystate was going to implement the Transport-inator, he would create the feature branch `jtrystate/transport-inator`.
 
 After implementing the feature, prepare for code review by running `yarn run lint` in both `frontend/` and `backend/` to eliminate any last-minute bugs and adhere to the style guide.
 
@@ -41,7 +41,7 @@ When finished, open a pull request from the feature branch into the `develop` br
 
 ## Toolstack
 
-The project uses Javascript on both the frontend and the backend. The frontend is a standalone [Vue 3](https://vuejs.org/guide/introduction.html) project, and the backend is an [Express.js](https://expressjs.com/) REST API.
+The project uses JavaScript on both the frontend and the backend. The frontend is a standalone [Vue 3](https://vuejs.org/guide/introduction.html) project and the backend is an [Express.js](https://expressjs.com/) REST API.
 
 The project also uses a PostgreSQL database for persistent storage in production and a SQLite database in development. Database operations will be performed by the backend using the [Sequelize ORM](https://sequelize.org/).
 
