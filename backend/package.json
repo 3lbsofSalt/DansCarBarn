@@ -5,8 +5,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "build": "babel src -d bin",
-    "start": "node bin/index.js",
+    "build": "babel src -d dist",
+    "build:clean": "rm -rf dist",
+    "start": "npm run build && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .js,.cjs,.mjs --fix --ignore-path .gitignore"
   },
