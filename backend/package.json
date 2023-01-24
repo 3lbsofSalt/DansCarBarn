@@ -1,0 +1,38 @@
+{
+  "name": "dans-car-barn-backend",
+  "version": "1.0.0",
+  "description": "The REST API for Dan's Car Barn.",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/app.js",
+    "build": "babel src -d dist",
+    "build:clean": "rm -rf dist",
+    "start": "npm run build && node dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .js,.cjs,.mjs --fix --ignore-path .gitignore"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/3lbsofSalt/DansCarBarn.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/3lbsofSalt/DansCarBarn/issues"
+  },
+  "homepage": "https://github.com/3lbsofSalt/DansCarBarn#readme",
+  "dependencies": {
+    "eslint": "^8.32.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "express": "^4.18.2",
+    "prettier": "^2.8.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/register": "^7.18.9",
+    "nodemon": "^2.0.20"
+  }
+}
