@@ -5,7 +5,11 @@ import safeAwait from 'safe-await';
 import { check } from 'express-validator';
 
 import models from '../models';
-import { hashPassword } from '../lib/auth.js';
+import {
+  hashPassword,
+  makeJWT,
+  isLoggedIn
+} from '../lib/auth.js';
 
 router.post(
   '/',
@@ -16,8 +20,6 @@ router.post(
       email,
       password
     } = req.body;
-
-    console.log(req);
 
     const [hashError, hash] = await safeAwait(hashPassword(password));
     if(hashError) {
@@ -49,20 +51,35 @@ router.post(
       password
     } = req.body;
 
+    console.log(models);
     const [userError, user] = await safeAwait(models.User.findOne({ where: { email } }));
 
     if(userError) {
       console.log(userError);
-      return res.sendStatus(500);
+      return res.sendStatus(401);
     }
 
-    if(user.checkPassword(password)) {
-
+    if(!user.checkPassword(password)) {
+      console.log('The user\'s password was incorrect');
+      return res.sendStatus(401);
     }
 
-    return res.sendStatus(401);
+    const [jwtError, jwt] = await safeAwait(makeJWT({
+      id: user.id
+    }));
 
+    return res.status(200).json({
+      token: jwt
+    });
   }
 );
+
+router.get(
+  '/',
+  isLoggedIn,
+  async (req, res) => {
+    return res.sendStatus(200);
+  }
+)
 
 export default router;
