@@ -30,8 +30,13 @@ const isLoggedIn = async (req, res, next) => {
     return res.sendStatus(401);
   }
 
-  console.log(models);
-  const [error, user] = await safeAwait(models.User.findOne({ where: { id: payload.id } }));
+  const [error, user] = await safeAwait(models.User.findOne({
+    where: { id: payload.id },
+    attributes: {
+      exclude: ['hash']
+    }
+
+  }));
 
   if(error) {
     console.log(error);

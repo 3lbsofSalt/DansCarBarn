@@ -51,7 +51,6 @@ router.post(
       password
     } = req.body;
 
-    console.log(models);
     const [userError, user] = await safeAwait(models.User.findOne({ where: { email } }));
 
     if(userError) {
@@ -78,7 +77,9 @@ router.get(
   '/',
   isLoggedIn,
   async (req, res) => {
-    return res.sendStatus(200);
+    return res.status(200).json({
+      user: req.user
+    });
   }
 )
 

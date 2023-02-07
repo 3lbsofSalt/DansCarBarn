@@ -30,4 +30,4 @@ db.sequelize = sequelize;
 
 sequelize.sync();
 
-module.exports = db;
+export default db;
