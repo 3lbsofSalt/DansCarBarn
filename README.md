@@ -13,6 +13,14 @@ There is an option for customers to purchase insurance for their rentals.
 This repository houses the high-level documentation for the project, the source code for the frontend web app, and the source code for the REST API in the following directory structure:
 
 - `docs/` - Contains the high-level documentation guiding the development of the project
+  - `docs/Data Models.png` - Contains UML class diagrams.
+  - `docs/activitydiagram.png` - Activity diagram.
+  - `docs/Project Plan.pdf` - Project plan.
+  - `Requirements Definition.pdf` - Requirements definition.
+  - `docs/ScrumBacklog.png` - A hierarchical Scrum backlog. Each task contains nested task, adding up to over 10 total tasks.
+- `prototypes/` - The high/low-fidelity prototypes.
+  - `prototypes/highlevel` - The high-fidelity prototypes.
+  - `prototypes/lowlevel` - The low-fidelity prototypes.
 - `frontend/` - The client-side web application for Dan's Car Barn. Instructions on how to run/build/test it are located in `frontend/README.md`.
 - `backend/` - The REST API for Dan's Car Barn. Instructions on how to run/build/test it are located in `backend/README.md`.
 
