@@ -10,7 +10,6 @@ async function hashPassword(password) {
 
 // This is just for temporary use
 
-console.log('barf')
 const secretKey = process.env.JWT_KEY;
 async function makeJWT(payload) {
   return jwt.sign(payload, secretKey);

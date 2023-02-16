@@ -4,7 +4,7 @@
   "description": "The REST API for Dan's Car Barn.",
   "main": "src/app.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/app.js",
+    "dev": "nodemon --exec babel-node -r ./node_modules/dotenv/config src/app.js",
     "build": "babel src -d dist",
     "build:clean": "rm -rf dist",
     "start": "npm run build && node dist/app.js",

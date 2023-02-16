@@ -1,7 +1,3 @@
-console.log('aoirsntoiarnsteionarseiotnioaersnteionarsteionaoirsnteioanrstoein');
-import * as dotenv from 'dotenv';
-dotenv.config({ debug: true });
-
 import express from 'express';
 import router from './routes';
 import models from './models';
