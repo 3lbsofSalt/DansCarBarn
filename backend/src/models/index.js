@@ -5,7 +5,8 @@ const basename = path.basename(__filename);
 
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize('postgres://madram@localhost:5432/dansCarBarn');
+
+const sequelize = new Sequelize('postgres://' + process.env.DATABASE_URL + '/' + process.env.DATABASE_NAME);
 
 const db = {};
 
