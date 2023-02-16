@@ -37,8 +37,9 @@ yarn run lint
 The `.env` file should be located in the `backend/src/` directory. The variables take the form of:
 
 ```
-NAME='VALUE'
+NAME=VALUE
 ```
+Make sure that you do not surround the values in quotes!
 
 
 ## DB Setup

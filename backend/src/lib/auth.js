@@ -8,8 +8,6 @@ async function hashPassword(password) {
   return bcrypt.hash(password, saltRounds);
 }
 
-// This is just for temporary use
-
 const secretKey = process.env.JWT_KEY;
 async function makeJWT(payload) {
   return jwt.sign(payload, secretKey);
@@ -25,21 +23,24 @@ function retrieveBearerToken(req) {
 }
 
 const isLoggedIn = async (req, res, next) => {
-  const [decodeError, payload] = await safeAwait(decodeJWT(retrieveBearerToken(req)));
-  if(decodeError) {
+  const [decodeError, payload] = await safeAwait(
+    decodeJWT(retrieveBearerToken(req))
+  );
+  if (decodeError) {
     console.log(decodeError);
     return res.sendStatus(401);
   }
 
-  const [error, user] = await safeAwait(models.User.findOne({
-    where: { id: payload.id },
-    attributes: {
-      exclude: ['hash']
-    }
+  const [error, user] = await safeAwait(
+    models.User.findOne({
+      where: { id: payload.id },
+      attributes: {
+        exclude: ['hash'],
+      },
+    })
+  );
 
-  }));
-
-  if(error) {
+  if (error) {
     console.log(error);
     return res.sendStatus(401);
   }
@@ -52,5 +53,5 @@ module.exports = {
   hashPassword,
   makeJWT,
   decodeJWT,
-  isLoggedIn
+  isLoggedIn,
 };

@@ -1,4 +1,3 @@
-import { Sequelize, DataTypes } from 'sequelize';
 import { hashPassword } from '../lib/auth.js';
 import safeAwait from 'safe-await';
 
@@ -8,16 +7,19 @@ module.exports = (sequelize, DataTypes) => {
     hash: DataTypes.STRING,
   });
 
-  User.prototype.checkPassword = async function(password) {
-
+  User.prototype.checkPassword = async function (password) {
     const [hashError, hashToCheck] = await safeAwait(hashPassword(password));
 
-    if(this.hash === hashToCheck) {
+    if (hashError) {
+      console.log(hashError);
+    }
+
+    if (this.hash === hashToCheck) {
       return true;
     }
 
     return false;
-  }
+  };
 
   return User;
 };
