@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 
     if (hashError) {
       console.log(hashError);
+      return false;
     }
 
     if (this.hash === hashToCheck) {

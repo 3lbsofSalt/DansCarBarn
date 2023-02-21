@@ -3,10 +3,11 @@ module.exports = (sequelize, DataTypes) => {
     make: DataTypes.STRING,
     model: DataTypes.STRING,
     year: DataTypes.INTEGER,
-    class: {
+    price_class: {
       type: DataTypes.ENUM,
-      value: ['SHMUCK', 'GRUNT', 'TIGIR_DEMON_DRAGON']
-    }
+      value: ['BRONZE', 'SILVER', 'GOLD']
+    },
+    imageId: DataTypes.INTEGER
   });
 
   return Vehicle;
