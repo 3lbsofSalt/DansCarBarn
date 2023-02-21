@@ -10,6 +10,7 @@ import { hashPassword, makeJWT, isLoggedIn } from '../../lib/auth.js';
 router.post('/', check('email'), check('password'), async (req, res) => {
   const { email, password } = req.body;
 
+  console.log(req);
   const [hashError, hash] = await safeAwait(hashPassword(password));
   if (hashError) {
     console.log(hashError);
@@ -32,6 +33,7 @@ router.post('/', check('email'), check('password'), async (req, res) => {
 });
 
 router.post('/login', check('email'), check('password'), async (req, res) => {
+  console.log(req);
   const { email, password } = req.body;
 
   const [userError, user] = await safeAwait(
@@ -43,8 +45,8 @@ router.post('/login', check('email'), check('password'), async (req, res) => {
     return res.sendStatus(401);
   }
 
-  if (!user.checkPassword(password)) {
-    console.log("The user's password was incorrect");
+  if (!user || !user.checkPassword(password)) {
+    console.log("The user's email or password was incorrect");
     return res.sendStatus(401);
   }
 
