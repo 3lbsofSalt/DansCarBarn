@@ -1,8 +1,15 @@
 import express from 'express';
 import router from './routes';
 
+import cors from 'cors';
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  credentials: true
+};
+
 const app = express();
 const port = 3001;
+app.use(cors(corsOptions));
 
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));

@@ -33,6 +33,7 @@ router.post('/', check('email'), check('password'), async (req, res) => {
 });
 
 router.post('/login', check('email'), check('password'), async (req, res) => {
+  console.log(req);
   const { email, password } = req.body;
 
   const [userError, user] = await safeAwait(
@@ -44,8 +45,8 @@ router.post('/login', check('email'), check('password'), async (req, res) => {
     return res.sendStatus(401);
   }
 
-  if (!user.checkPassword(password)) {
-    console.log("The user's password was incorrect");
+  if (!user || !user.checkPassword(password)) {
+    console.log("The user's email or password was incorrect");
     return res.sendStatus(401);
   }
 
