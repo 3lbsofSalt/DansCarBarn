@@ -13,8 +13,8 @@ import * as directives from 'vuetify/directives';
 import './assets/main.css';
 
 const vuetify = createVuetify({
-    components,
-    directives,
+  components,
+  directives,
 });
 
 const app = createApp(App);
