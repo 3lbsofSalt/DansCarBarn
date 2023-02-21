@@ -5,11 +5,13 @@
     <div class="login-container d-flex flex-column">
       <h1 class="dcb-title">DCB</h1>
       <v-text-field
+        v-model="email"
         label="Email"
         type="email"
         hide-details="auto"
       ></v-text-field>
       <v-text-field
+        v-model="password"
         label="Password"
         type="password"
         hide-details="auto"
