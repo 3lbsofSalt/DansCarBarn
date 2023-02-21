@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <div class="login-layout d-flex align-center justify-center">
     <div class="login-container d-flex flex-column">
@@ -16,7 +14,11 @@
         type="password"
         hide-details="auto"
       ></v-text-field>
-      <v-btn variant="tonal" size="large">Login</v-btn>
+      <v-btn
+        variant="tonal"
+        size="large"
+        @click="login"
+      >Login</v-btn>
     </div>
   </div>
 </template>
