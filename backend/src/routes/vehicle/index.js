@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
     imageId
   } = req.body;
 
-  const [error] = safeAwait(await models.Vehicle.create({
+  const [error] = await safeAwait(models.Vehicle.create({
     make,
     model,
     year,
