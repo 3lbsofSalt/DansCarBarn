@@ -1,25 +1,38 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import AppWireframe from '../components/AppWireframe.vue';
 import LoginView from '../views/LoginView.vue';
+import BrowseView from '../views/BrowseView.vue';
+import ReservationsView from '../views/ReservationsView.vue';
+import ManageView from '../views/ManageView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/',
-      redirect: { name: 'login' },
-    },
     {
       path: '/login',
       name: 'login',
       component: LoginView,
     },
     {
-      path: '/login',
-      name: 'login',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/Login.vue'),
+      path: '/',
+      component: AppWireframe,
+      children: [
+        {
+          path: 'browse',
+          name: 'browse',
+          component: BrowseView,
+        },
+        {
+          path: 'reservations',
+          name: 'reservations',
+          component: ReservationsView,
+        },
+        {
+          path: 'manage',
+          name: 'manage',
+          component: ManageView,
+        },
+      ]
     },
   ],
 });
