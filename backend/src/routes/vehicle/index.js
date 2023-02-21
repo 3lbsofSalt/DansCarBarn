@@ -5,8 +5,6 @@ import safeAwait from 'safe-await';
 import models from '../../models';
 
 router.post('/', async (req, res) => {
-  // http://loclhost:3001/vehicle
-
   const {
     make,
     model,
