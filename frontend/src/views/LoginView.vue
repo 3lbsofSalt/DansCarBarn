@@ -5,11 +5,13 @@
     <div class="login-container d-flex flex-column">
       <h1 class="dcb-title">DCB</h1>
       <v-text-field
+        v-model="email"
         label="Email"
         type="email"
         hide-details="auto"
       ></v-text-field>
       <v-text-field
+        v-model="password"
         label="Password"
         type="password"
         hide-details="auto"
@@ -18,6 +20,36 @@
     </div>
   </div>
 </template>
+
+<script>
+ export default {
+   data: () => ({
+     email: '',
+     password: ''
+   }),
+   methods: {
+     login: function() {
+       fetch('http://localhost:3001/user/login', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify({
+           email: this.email,
+           password: this.password
+         })
+       })
+        .then((response) => response.json())
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+     }
+   }
+ }
+</script>
 
 <style scoped>
 .login-layout {
