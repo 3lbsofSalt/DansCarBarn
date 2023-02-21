@@ -10,6 +10,7 @@ import { hashPassword, makeJWT, isLoggedIn } from '../../lib/auth.js';
 router.post('/', check('email'), check('password'), async (req, res) => {
   const { email, password } = req.body;
 
+  console.log(req);
   const [hashError, hash] = await safeAwait(hashPassword(password));
   if (hashError) {
     console.log(hashError);
