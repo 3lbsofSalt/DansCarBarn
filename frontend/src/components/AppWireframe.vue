@@ -10,9 +10,9 @@ import { RouterView } from 'vue-router';
             </div>
 
             <div id="app-navbar-link-box" class="navbar-group d-flex">
-                <v-btn variant="flat" to="browse">Browse</v-btn>
-                <v-btn variant="flat" to="reservations">Reservations</v-btn>
-                <v-btn variant="flat" to="manage">Manage</v-btn>
+                <v-btn variant="flat" :to="{ name: 'browse' }">Browse</v-btn>
+                <v-btn variant="flat" :to="{ name: 'reservations' }">Reservations</v-btn>
+                <v-btn variant="flat" :to="{ name: 'manage' }">Manage</v-btn>
             </div>
 
             <div id="app-navbar-profile-box" class="navbar-group d-flex flex-grow-1 justify-end">
