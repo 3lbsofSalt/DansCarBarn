@@ -21,6 +21,7 @@ const router = createRouter({
     {
       path: '/',
       component: AppWireframe,
+      redirect: { name: 'browse' },
       children: [
         {
           path: 'browse',
