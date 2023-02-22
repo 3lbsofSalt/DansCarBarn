@@ -52,10 +52,10 @@ const router = createRouter({
               path: 'reservations',
               name: 'manage-reservations',
               component: ManageReservationsView,
-            }
-          ]
+            },
+          ],
         },
-      ]
+      ],
     },
   ],
 });

@@ -1,5 +1,3 @@
 <template>
-    <div>
-        Manage Vehicles Placeholder
-    </div>
+  <div>Manage Vehicles Placeholder</div>
 </template>

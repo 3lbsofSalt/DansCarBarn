@@ -1,5 +1,3 @@
 <template>
-    <div>
-        Manage Reservations Placeholder
-    </div>
+  <div>Manage Reservations Placeholder</div>
 </template>

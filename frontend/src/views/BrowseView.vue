@@ -1,3 +1,3 @@
 <template>
-    <div>Browse Placeholder</div>
+  <div>Browse Placeholder</div>
 </template>

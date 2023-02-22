@@ -1,3 +1,3 @@
 <template>
-    <div>Reservations Placeholder</div>
+  <div>Reservations Placeholder</div>
 </template>
