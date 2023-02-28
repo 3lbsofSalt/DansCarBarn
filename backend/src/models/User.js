@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     email: DataTypes.STRING,
     hash: DataTypes.STRING,
+    balance: DataTypes.INTEGER,
+    role: DataTypes.ENUM('CUSTOMER', 'EMPLOYEE', 'MANAGER')
   });
 
   User.prototype.checkPassword = async function (password) {
