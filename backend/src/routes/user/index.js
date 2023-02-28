@@ -55,8 +55,7 @@ router.post('/login', check('email'), check('password'), async (req, res) => {
       id: user.id,
     })
   );
-  console.log(jwtError);
-  console.log(jwt);
+
   return res.status(200).json({
     token: jwt,
   });
