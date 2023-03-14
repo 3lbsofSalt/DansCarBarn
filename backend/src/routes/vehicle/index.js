@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
     imageId
   } = req.body;
 
-  const [error] = safeAwait(await models.Vehicle.create({
+  const [error] = await safeAwait(models.Vehicle.create({
     make,
     model,
     year,
@@ -28,6 +28,30 @@ router.post('/', async (req, res) => {
 
   return res.sendStatus(200);
 
+});
+
+router.put('/', async (req, res) => {
+  const {
+    id
+  } = req.body;
+
+  const body = req.body;
+  delete body.id;
+
+  const [error] = await safeAwait(models.Vehicle.update({
+    ...body
+  }, {
+    where: {
+      id
+    }
+  }));
+
+  if(error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+
+  return res.sendStatus(200);
 });
 
 export default router;
