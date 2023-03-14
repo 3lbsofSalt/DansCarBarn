@@ -2,12 +2,11 @@ import express from 'express';
 const router = express.Router();
 
 import safeAwait from 'safe-await';
-import { check } from 'express-validator';
 
 import models from '../../models';
 import { hashPassword, makeJWT, isLoggedIn } from '../../lib/auth.js';
 
-router.post('/', check('email'), check('password'), async (req, res) => {
+router.post('/', async (req, res) => {
   const { email, password } = req.body;
 
   console.log(req);
@@ -21,6 +20,8 @@ router.post('/', check('email'), check('password'), async (req, res) => {
     models.User.create({
       email,
       hash,
+      balance: 0,
+      role: 'CUSTOMER'
     })
   );
 
@@ -32,7 +33,7 @@ router.post('/', check('email'), check('password'), async (req, res) => {
   return res.sendStatus(200);
 });
 
-router.post('/login', check('email'), check('password'), async (req, res) => {
+router.post('/login', async (req, res) => {
   console.log(req);
   const { email, password } = req.body;
 
@@ -66,5 +67,8 @@ router.get('/', isLoggedIn, async (req, res) => {
     user: req.user,
   });
 });
+
+import permissions from './permissions.js';
+router.use('/permissions', permissions);
 
 export default router;

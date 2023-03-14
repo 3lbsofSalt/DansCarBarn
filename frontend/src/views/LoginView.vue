@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <div class="login-layout d-flex align-center justify-center">
     <div class="login-container d-flex flex-column">
@@ -37,10 +35,10 @@
        login(this.email, this.password)
         .catch((err) => {
           console.log(err);
-        })
-     }
-   }
- }
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
