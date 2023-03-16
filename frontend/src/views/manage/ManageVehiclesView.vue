@@ -6,17 +6,19 @@ const vehicles = [
     id: 1,
     title: 'Ford Pinto 1972',
     class: 'gold',
-    imgSrc: 'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
+    imgSrc:
+      'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
   },
   {
     id: 2,
     title: 'Ford Pinto 1972',
     class: 'gold',
-    imgSrc: 'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
-  }
+    imgSrc:
+      'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
+  },
 ];
 
-const onDelete = id => {
+const onDelete = (id) => {
   console.log('DELETE VEHICLE with ID', id);
 };
 </script>
@@ -33,6 +35,7 @@ const onDelete = id => {
     <div class="vehicles-list d-flex flex-column">
       <ManageVehiclesCard
         v-for="vehicle in vehicles"
+        :key="vehicle.id"
         :title="vehicle.title"
         :class="vehicle.class"
         :imgSrc="vehicle.imgSrc"
