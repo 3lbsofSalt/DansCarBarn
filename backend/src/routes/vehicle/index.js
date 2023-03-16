@@ -4,7 +4,7 @@ const router = express.Router();
 import safeAwait from 'safe-await';
 import models from '../../models';
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
   const {
     make,
     model,
@@ -22,21 +22,16 @@ router.post('/', async (req, res) => {
   }));
 
   if(error) {
-    console.log(error);
-    return res.sendStatus(500);
+    return next(error);
   }
 
   return res.sendStatus(200);
 
 });
 
-router.put('/', async (req, res) => {
-  const {
-    id
-  } = req.body;
+router.put('/:id', async (req, res, next) => {
 
   const body = req.body;
-  delete body.id;
 
   const [error] = await safeAwait(models.Vehicle.update({
     ...body
@@ -47,11 +42,24 @@ router.put('/', async (req, res) => {
   }));
 
   if(error) {
-    console.log(error);
-    return res.sendStatus(500);
+    return next(error);
   }
 
   return res.sendStatus(200);
+});
+
+router.get('/all', async (req, res, next) => {
+
+  const [error, results] = await safeAwait(models.Vehicle.findAll());
+
+  if(error) {
+    return next(error);
+  }
+
+  return res.status(200).json({
+    results
+  });
+
 });
 
 export default router;
