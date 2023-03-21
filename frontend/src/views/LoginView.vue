@@ -14,33 +14,25 @@
         type="password"
         hide-details="auto"
       ></v-text-field>
-      <v-btn variant="tonal" size="large" @click="login">Login</v-btn>
+      <v-btn
+        variant="tonal"
+        size="large"
+        @click="login"
+      >Login</v-btn>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  data: () => ({
-    email: '',
-    password: '',
-  }),
-  methods: {
-    login: function () {
-      fetch('http://localhost:3001/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: this.email,
-          password: this.password,
-        }),
-      })
-        .then((response) => response.json())
-        .then((res) => {
-          console.log(res);
-        })
+ import { login } from '../api/login.js';
+ export default {
+   data: () => ({
+     email: '',
+     password: ''
+   }),
+   methods: {
+     login: function() {
+       login(this.email, this.password)
         .catch((err) => {
           console.log(err);
         });
