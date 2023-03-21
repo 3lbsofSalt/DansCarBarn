@@ -1,9 +1,12 @@
 <template>
   <div id="Browse Header" class="d-flex flex-grow-1 flex-column">
     <h2>Browse</h2>
-    <v-text-field label="Search" filled></v-text-field>
+    <div style="display:flex; flex-direction: row;">
+      <v-text-field label="Search" filled></v-text-field>
+      <!-- <VueDatePicker :date="date"></VueDatePicker> -->
+    </div>
     <div class="gridBrowsePinto">
-      <v-card elevation="3">
+      <v-card v-for="car of allCars" :key="car.id" elevation="3">
         <v-img
           class="white--text align-end"
           width="100%"
@@ -11,14 +14,16 @@
         />
         <v-card-title>
           <div class="browseCarTitle">
-            <div>Ford Pinto</div>
-            <div class="vehicleClass">Gold</div>
+            <div>{{ car.make + ' ' + car.model }}</div>
+            <div :class="car.price_class">{{ car.price_class }}</div>
           </div>
         </v-card-title>
         <v-card-subtitle>
           <div class="browseCarSubTitle">
             <div>
-              <div>$52/day</div>
+              <div v-if="car.price_class === 'GOLD'">10 R$/day</div>
+              <div v-else-if="car.price_class === 'SILVER'">7 R$/day</div>
+              <div v-else-if="car.price_class === 'BRONZE'">1 R$/day</div>
               <div class="estimate">$156 est total</div>
             </div>
             <v-btn class="selectButton"> Select </v-btn>
@@ -30,9 +35,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 
-const allCars = ref(fetch());
+const allCars = ref();
+const vehiclesUrl = 'http://localhost:3001/vehicle';
+
+onBeforeMount(async () => {
+  allCars.value = (await (await fetch(vehiclesUrl + '/all')).json()).results;
+  console.log(allCars.value)
+});
 </script>
 
 <style scoped>
@@ -50,7 +63,7 @@ body {
   justify-content: space-between;
   font-weight: 700;
 }
-.vehicleClass {
+.GOLD {
   font-size: 12px;
   background-color: gold;
   color: goldenrod;
@@ -58,6 +71,25 @@ body {
   padding: 0px 10px;
   border-radius: 4px;
 }
+
+.SILVER {
+  font-size: 12px;
+  background-color: silver;
+  color: rgb(97, 97, 97);
+  max-height: 100%;
+  padding: 0px 10px;
+  border-radius: 4px;
+}
+
+.BRONZE {
+  font-size: 12px;
+  background-color: rgb(221, 57, 57);
+  color: darkred;
+  max-height: 100%;
+  padding: 0px 10px;
+  border-radius: 4px;
+}
+
 .browseCarSubTitle {
   display: flex;
   justify-content: space-between;
