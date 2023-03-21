@@ -1,4 +1,5 @@
 <script setup>
+import { reactive, ref } from 'vue';
 import ManageVehiclesCard from '../../components/ManageVehiclesCard.vue';
 
 const vehicles = [
@@ -18,8 +19,32 @@ const vehicles = [
   },
 ];
 
-const onDelete = (id) => {
-  console.log('DELETE VEHICLE with ID', id);
+const selectedDeleteVehicle = reactive({
+  // stores information about the user that was selected for deletion
+  id: null,
+  title: '',
+});
+
+const showDeleteDialog = ref(false);
+
+const onDelete = (vehicle) => {
+  const { id, title } = vehicle;
+
+  selectedDeleteVehicle.id = id;
+  selectedDeleteVehicle.title = title;
+
+  // show dialog
+  showDeleteDialog.value = true;
+};
+
+// TODO: call API to delete vehicle
+const deleteVehicle = () => {
+  console.log(
+    'TODO: Delete vehicle with ',
+    selectedDeleteVehicle.id,
+    selectedDeleteVehicle.title
+  );
+  showDeleteDialog.value = false;
 };
 </script>
 
@@ -39,10 +64,22 @@ const onDelete = (id) => {
         :title="vehicle.title"
         :class="vehicle.class"
         :imgSrc="vehicle.imgSrc"
-        @delete="() => onDelete(vehicle.id)"
+        @delete="() => onDelete(vehicle)"
       />
     </div>
   </div>
+
+  <v-dialog v-model="showDeleteDialog" width="auto">
+    <v-card title="Delete Vehicle">
+      <v-card-text class="confirm-text">
+        Are you sure you want to delete the
+        {{ selectedDeleteVehicle.title }}?
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="red" block @click="deleteVehicle()">Delete</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <style scoped>
