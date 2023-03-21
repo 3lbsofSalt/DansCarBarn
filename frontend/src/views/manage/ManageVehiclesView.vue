@@ -46,7 +46,7 @@ const createVehicle = () => {
     'TODO: Create vehicle with ',
     createVehicleForm.title,
     createVehicleForm.class,
-    createVehicleForm.img,
+    createVehicleForm.img
   );
   showCreateDialog.value = false;
 };
@@ -76,7 +76,12 @@ const deleteVehicle = () => {
   <div id="manage-vehicles" class="d-flex flex-column">
     <div id="manage-vehicles-header" class="d-flex align-center">
       <h2 class="d-flex flex-grow-1">Vehicles</h2>
-      <v-btn icon="mdi-plus" color="secondary" size="small" @click="showCreateDialog = true" />
+      <v-btn
+        icon="mdi-plus"
+        color="secondary"
+        size="small"
+        @click="showCreateDialog = true"
+      />
     </div>
 
     <v-text-field label="Search" hide-details="auto" />
@@ -109,7 +114,10 @@ const deleteVehicle = () => {
             hide-details="auto"
             v-model="createVehicleForm.class"
           />
-          <v-file-input label="Image" v-model="createVehicleForm.img"></v-file-input>
+          <v-file-input
+            label="Image"
+            v-model="createVehicleForm.img"
+          ></v-file-input>
           <v-img v-if="imagePreviewUrl" :src="imagePreviewUrl"></v-img>
         </div>
       </v-card-text>
