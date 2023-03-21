@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import ManageVehiclesCard from '../../components/ManageVehiclesCard.vue';
 
 const vehicles = [
@@ -19,13 +19,37 @@ const vehicles = [
   },
 ];
 
+const classes = ['Bronze', 'Silver', 'Gold'];
+
+const createVehicleForm = reactive({
+  title: '',
+  class: '',
+  img: null,
+});
+
+const imagePreviewUrl = computed(() => {
+  if (!createVehicleForm.img) return '';
+  return URL.createObjectURL(createVehicleForm.img[0]);
+});
+
 const selectedDeleteVehicle = reactive({
   // stores information about the user that was selected for deletion
   id: null,
   title: '',
 });
 
+const showCreateDialog = ref(false);
 const showDeleteDialog = ref(false);
+
+const createVehicle = () => {
+  console.log(
+    'TODO: Create vehicle with ',
+    createVehicleForm.title,
+    createVehicleForm.class,
+    createVehicleForm.img,
+  );
+  showCreateDialog.value = false;
+};
 
 const onDelete = (vehicle) => {
   const { id, title } = vehicle;
@@ -52,7 +76,7 @@ const deleteVehicle = () => {
   <div id="manage-vehicles" class="d-flex flex-column">
     <div id="manage-users-header" class="d-flex align-center">
       <h2 class="d-flex flex-grow-1">Vehicles</h2>
-      <v-btn icon="mdi-plus" color="secondary" size="small" />
+      <v-btn icon="mdi-plus" color="secondary" size="small" @click="showCreateDialog = true" />
     </div>
 
     <v-text-field label="Search" hide-details="auto" />
@@ -69,6 +93,33 @@ const deleteVehicle = () => {
     </div>
   </div>
 
+  <!-- Create User Dialog -->
+  <v-dialog v-model="showCreateDialog" width="auto">
+    <v-card title="Create User">
+      <v-card-text>
+        <div class="card-form d-flex flex-column">
+          <v-text-field
+            label="Title"
+            hide-details="auto"
+            v-model="createVehicleForm.title"
+          />
+          <v-combobox
+            label="Class"
+            :items="classes"
+            hide-details="auto"
+            v-model="createVehicleForm.class"
+          />
+          <v-file-input label="Image" v-model="createVehicleForm.img"></v-file-input>
+          <v-img v-if="imagePreviewUrl" :src="imagePreviewUrl"></v-img>
+        </div>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" block @click="createVehicle()">Create</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <!-- Delete User Dialog -->
   <v-dialog v-model="showDeleteDialog" width="auto">
     <v-card title="Delete Vehicle">
       <v-card-text class="confirm-text">
@@ -90,5 +141,14 @@ const deleteVehicle = () => {
 
 .vehicles-list {
   gap: 8px;
+}
+
+.card-form {
+  min-width: 350px;
+  gap: 16px;
+}
+
+.confirm-text {
+  max-width: 450px;
 }
 </style>
