@@ -33,7 +33,7 @@ const imagePreviewUrl = computed(() => {
 });
 
 const selectedDeleteVehicle = reactive({
-  // stores information about the user that was selected for deletion
+  // stores information about the vehicle that was selected for deletion
   id: null,
   title: '',
 });
@@ -74,7 +74,7 @@ const deleteVehicle = () => {
 
 <template>
   <div id="manage-vehicles" class="d-flex flex-column">
-    <div id="manage-users-header" class="d-flex align-center">
+    <div id="manage-vehicles-header" class="d-flex align-center">
       <h2 class="d-flex flex-grow-1">Vehicles</h2>
       <v-btn icon="mdi-plus" color="secondary" size="small" @click="showCreateDialog = true" />
     </div>
@@ -93,9 +93,9 @@ const deleteVehicle = () => {
     </div>
   </div>
 
-  <!-- Create User Dialog -->
+  <!-- Create Vehicle Dialog -->
   <v-dialog v-model="showCreateDialog" width="auto">
-    <v-card title="Create User">
+    <v-card title="Create Vehicle">
       <v-card-text>
         <div class="card-form d-flex flex-column">
           <v-text-field
@@ -119,7 +119,7 @@ const deleteVehicle = () => {
     </v-card>
   </v-dialog>
 
-  <!-- Delete User Dialog -->
+  <!-- Delete Vehicle Dialog -->
   <v-dialog v-model="showDeleteDialog" width="auto">
     <v-card title="Delete Vehicle">
       <v-card-text class="confirm-text">
