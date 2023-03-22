@@ -5,24 +5,33 @@ import ManageVehiclesCard from '../../components/ManageVehiclesCard.vue';
 const vehicles = [
   {
     id: 1,
-    title: 'Ford Pinto 1972',
+    make: 'Ford',
+    model: 'Pinto',
+    year: 1972,
     class: 'gold',
     imgSrc:
       'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
   },
   {
     id: 2,
-    title: 'Ford Pinto 1972',
+    make: 'Ford',
+    model: 'Pinto',
+    year: 1972,
     class: 'gold',
     imgSrc:
       'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
   },
 ];
 
+const makeVehicleTitle = (vehicle) =>
+  `${vehicle.make} ${vehicle.model} ${vehicle.year}`;
+
 const classes = ['Bronze', 'Silver', 'Gold'];
 
 const createVehicleForm = reactive({
-  title: '',
+  make: '',
+  model: '',
+  year: null,
   class: '',
   img: null,
 });
@@ -35,7 +44,9 @@ const imagePreviewUrl = computed(() => {
 const selectedDeleteVehicle = reactive({
   // stores information about the vehicle that was selected for deletion
   id: null,
-  title: '',
+  make: 'Ford',
+  model: 'Pinto',
+  year: 1972,
 });
 
 const showCreateDialog = ref(false);
@@ -44,7 +55,9 @@ const showDeleteDialog = ref(false);
 const createVehicle = () => {
   console.log(
     'TODO: Create vehicle with ',
-    createVehicleForm.title,
+    createVehicleForm.make,
+    createVehicleForm.model,
+    createVehicleForm.year,
     createVehicleForm.class,
     createVehicleForm.img
   );
@@ -52,10 +65,12 @@ const createVehicle = () => {
 };
 
 const onDelete = (vehicle) => {
-  const { id, title } = vehicle;
+  const { id, make, model, year } = vehicle;
 
   selectedDeleteVehicle.id = id;
-  selectedDeleteVehicle.title = title;
+  selectedDeleteVehicle.make = make;
+  selectedDeleteVehicle.model = model;
+  selectedDeleteVehicle.year = year;
 
   // show dialog
   showDeleteDialog.value = true;
@@ -66,7 +81,9 @@ const deleteVehicle = () => {
   console.log(
     'TODO: Delete vehicle with ',
     selectedDeleteVehicle.id,
-    selectedDeleteVehicle.title
+    selectedDeleteVehicle.make,
+    selectedDeleteVehicle.model,
+    selectedDeleteVehicle.year
   );
   showDeleteDialog.value = false;
 };
@@ -90,7 +107,7 @@ const deleteVehicle = () => {
       <ManageVehiclesCard
         v-for="vehicle in vehicles"
         :key="vehicle.id"
-        :title="vehicle.title"
+        :title="makeVehicleTitle(vehicle)"
         :class="vehicle.class"
         :imgSrc="vehicle.imgSrc"
         @delete="() => onDelete(vehicle)"
@@ -104,9 +121,20 @@ const deleteVehicle = () => {
       <v-card-text>
         <div class="card-form d-flex flex-column">
           <v-text-field
-            label="Title"
+            label="Make"
             hide-details="auto"
-            v-model="createVehicleForm.title"
+            v-model="createVehicleForm.make"
+          />
+          <v-text-field
+            label="Model"
+            hide-details="auto"
+            v-model="createVehicleForm.model"
+          />
+          <v-text-field
+            label="Year"
+            type="number"
+            hide-details="auto"
+            v-model="createVehicleForm.year"
           />
           <v-combobox
             label="Class"
@@ -132,7 +160,7 @@ const deleteVehicle = () => {
     <v-card title="Delete Vehicle">
       <v-card-text class="confirm-text">
         Are you sure you want to delete the
-        {{ selectedDeleteVehicle.title }}?
+        {{ makeVehicleTitle(selectedDeleteVehicle) }}?
       </v-card-text>
       <v-card-actions>
         <v-btn color="red" block @click="deleteVehicle()">Delete</v-btn>
