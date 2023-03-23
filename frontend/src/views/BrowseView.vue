@@ -1,7 +1,7 @@
 <template>
   <div id="Browse Header" class="d-flex flex-grow-1 flex-column">
     <h2>Browse</h2>
-    <v-text-field label="Search" filled></v-text-field>
+    <v-text-field label="Search" filled v-model="search"></v-text-field>
     <div class="dates" style="">
       <VueDatePicker
         v-model="dateRange"
@@ -10,7 +10,7 @@
       ></VueDatePicker>
     </div>
     <div class="gridBrowsePinto">
-      <v-card v-for="car of allCars" :key="car.id" elevation="3">
+      <v-card v-for="car of carsFiltered" :key="car.id" elevation="3">
         <v-img
           class="white--text align-end"
           width="100%"
@@ -59,13 +59,29 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, ref, computed } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
 const allCars = ref();
 const vehiclesUrl = 'http://localhost:3001/vehicle';
 const dateRange = ref();
+const search = ref('');
+
+// const carsFiltered = computed(() => {
+//   let returnCars = [];
+//   for (const car of allCars.value) {
+//     if (
+//       car.make === search.value ||
+//       car.model === search.value ||
+//       car.model + ' ' + car.make === search.value ||
+//       search.value === ''
+//     ) {
+//       returnCars.push(car);
+//     }
+//   }
+//   return returnCars;
+// });
 
 onMounted(() => {
   const startDate = new Date();
@@ -83,11 +99,11 @@ body {
   margin-left: 256px;
   margin-right: 256px;
 }
-.show{
-  display: ;
+.show {
+  visibility: visible;
 }
-.hide{
-
+.hide {
+  visibility: hidden;
 }
 .gridBrowsePinto {
   display: grid;
