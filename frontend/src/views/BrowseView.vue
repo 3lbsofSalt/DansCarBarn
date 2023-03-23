@@ -1,9 +1,13 @@
 <template>
   <div id="Browse Header" class="d-flex flex-grow-1 flex-column">
     <h2>Browse</h2>
-    <div style="display:flex; flex-direction: row;">
-      <v-text-field label="Search" filled></v-text-field>
-      <!-- <VueDatePicker :date="date"></VueDatePicker> -->
+    <v-text-field label="Search" filled></v-text-field>
+    <div class="dates" style="">
+      <VueDatePicker
+        v-model="dateRange"
+        range
+        :enable-time-picker="false"
+      ></VueDatePicker>
     </div>
     <div class="gridBrowsePinto">
       <v-card v-for="car of allCars" :key="car.id" elevation="3">
@@ -21,10 +25,30 @@
         <v-card-subtitle>
           <div class="browseCarSubTitle">
             <div>
-              <div v-if="car.price_class === 'GOLD'">10 R$/day</div>
-              <div v-else-if="car.price_class === 'SILVER'">7 R$/day</div>
-              <div v-else-if="car.price_class === 'BRONZE'">1 R$/day</div>
-              <div class="estimate">$156 est total</div>
+              <div v-if="car.price_class === 'GOLD'">150 R$/day</div>
+              <div v-else-if="car.price_class === 'SILVER'">100 R$/day</div>
+              <div v-else-if="car.price_class === 'BRONZE'">50 R$/day</div>
+              <div class="estimate">
+                $<span v-if="car.price_class === 'GOLD'">{{
+                  (
+                    ((dateRange[1] - dateRange[0]) / (1000 * 60 * 60 * 24)) *
+                    150
+                  ).toFixed(2)
+                }}</span>
+                <span v-else-if="car.price_class === 'SILVER'">{{
+                  (
+                    ((dateRange[1] - dateRange[0]) / (1000 * 60 * 60 * 24)) *
+                    100
+                  ).toFixed(2)
+                }}</span>
+                <span v-else-if="car.price_class === 'BRONZE'">{{
+                  (
+                    ((dateRange[1] - dateRange[0]) / (1000 * 60 * 60 * 24)) *
+                    50
+                  ).toFixed(2)
+                }}</span>
+                est total
+              </div>
             </div>
             <v-btn class="selectButton"> Select </v-btn>
           </div>
@@ -35,16 +59,22 @@
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
 const allCars = ref();
 const vehiclesUrl = 'http://localhost:3001/vehicle';
+const dateRange = ref();
+
+onMounted(() => {
+  const startDate = new Date();
+  const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
+  dateRange.value = [startDate, endDate];
+});
 
 onBeforeMount(async () => {
   allCars.value = (await (await fetch(vehiclesUrl + '/all')).json()).results;
-  console.log(allCars.value)
 });
 </script>
 
@@ -53,10 +83,17 @@ body {
   margin-left: 256px;
   margin-right: 256px;
 }
+.show{
+  display: ;
+}
+.hide{
+
+}
 .gridBrowsePinto {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 16px;
+  margin-top: 16px;
 }
 .browseCarTitle {
   display: flex;
