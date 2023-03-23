@@ -1,7 +1,12 @@
 <template>
   <div id="Browse Header" class="d-flex flex-grow-1 flex-column">
     <h2>Browse</h2>
-    <v-text-field label="Search" filled v-model="search"></v-text-field>
+    <v-text-field
+      label="Search"
+      filled
+      v-model="search"
+      @keyup.enter="filterCars"
+    ></v-text-field>
     <div class="dates" style="">
       <VueDatePicker
         v-model="dateRange"
@@ -59,7 +64,7 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref, computed } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
@@ -67,21 +72,22 @@ const allCars = ref();
 const vehiclesUrl = 'http://localhost:3001/vehicle';
 const dateRange = ref();
 const search = ref('');
+const carsFiltered = ref(allCars);
 
-// const carsFiltered = computed(() => {
-//   let returnCars = [];
-//   for (const car of allCars.value) {
-//     if (
-//       car.make === search.value ||
-//       car.model === search.value ||
-//       car.model + ' ' + car.make === search.value ||
-//       search.value === ''
-//     ) {
-//       returnCars.push(car);
-//     }
-//   }
-//   return returnCars;
-// });
+const filterCars = () => {
+  let returnCars = [];
+  for (const car of allCars.value) {
+    if (
+      car.make === search.value ||
+      car.model === search.value ||
+      car.model + ' ' + car.make === search.value ||
+      search.value === ''
+    ) {
+      returnCars.push(car);
+    }
+  }
+  carsFiltered.value = returnCars;
+};
 
 onMounted(() => {
   const startDate = new Date();
