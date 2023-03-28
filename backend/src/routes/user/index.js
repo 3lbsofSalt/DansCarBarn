@@ -6,14 +6,13 @@ import safeAwait from 'safe-await';
 import models from '../../models';
 import { hashPassword, makeJWT, isLoggedIn } from '../../lib/auth.js';
 
-router.post('/', async (req, res) => {
-  const { email, password } = req.body;
+router.post('/', async (req, res, next) => {
+  const { email, password, role = 'CUSTOMER' } = req.body;
 
-  console.log(req);
   const [hashError, hash] = await safeAwait(hashPassword(password));
+
   if (hashError) {
-    console.log(hashError);
-    return res.sendStatus(500);
+    return next(hashError);
   }
 
   const [error] = await safeAwait(
@@ -21,7 +20,7 @@ router.post('/', async (req, res) => {
       email,
       hash,
       balance: 0,
-      role: 'CUSTOMER'
+      role
     })
   );
 
@@ -68,7 +67,47 @@ router.get('/', isLoggedIn, async (req, res) => {
   });
 });
 
-import permissions from './permissions.js';
-router.use('/permissions', permissions);
+router.get('/all', async (req, res, next) => {
+  const [error, results] = await safeAwait(models.User.findAll());
+  if(error) return next(error);
+  return res.status(200).json({ results });
+});
+
+router.put('/:id', async (req, res) => {
+
+  const {
+    password,
+    role
+  } = req.body;
+
+  console.log(password);
+  console.log(role);
+  const update = {};
+
+  if(role) {
+    update.role = role;
+  }
+
+  if(password) {
+    const [hashError, hash] = await safeAwait(hashPassword(password));
+
+    if (hashError) {
+      return next(hashError);
+    }
+
+    update.hash = hash;
+  }
+
+  const [error] = await safeAwait(models.User.update(update ,{ where: {
+    id: req.params.id
+  }}));
+
+  if(error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+
+  return res.sendStatus(200);
+});
 
 export default router;
