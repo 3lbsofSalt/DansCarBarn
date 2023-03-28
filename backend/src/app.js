@@ -11,7 +11,7 @@ const app = express();
 const port = 3001;
 app.use(cors(corsOptions));
 
-app.use(express.json({ extended: true }));
+app.use(express.json({ extended: true, limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(router);
 

@@ -10,23 +10,22 @@ router.post('/', async (req, res, next) => {
     model,
     year,
     price_class,
-    imageId
+    image
   } = req.body;
 
-  const [error] = await safeAwait(models.Vehicle.create({
+  const [error, vehicle] = await safeAwait(models.Vehicle.create({
     make,
     model,
     year,
     price_class,
-    imageId
+    image
   }));
 
   if(error) {
     return next(error);
   }
 
-  return res.sendStatus(200);
-
+  return res.json(vehicle);
 });
 
 router.put('/:id', async (req, res, next) => {
@@ -48,18 +47,14 @@ router.put('/:id', async (req, res, next) => {
   return res.sendStatus(200);
 });
 
-router.get('/all', async (req, res, next) => {
-
+router.get('/', async (req, res, next) => {
   const [error, results] = await safeAwait(models.Vehicle.findAll());
 
   if(error) {
     return next(error);
   }
 
-  return res.status(200).json({
-    results
-  });
-
+  return res.status(200).json(results);
 });
 
 export default router;
