@@ -1,8 +1,9 @@
 <script setup>
 import { reactive, ref, computed } from 'vue';
+import { getVehicles } from '../../api/manage/vehicles';
 import ManageVehiclesCard from '../../components/ManageVehiclesCard.vue';
 
-const vehicles = [
+const vehicles = ref([
   {
     id: 1,
     make: 'Ford',
@@ -21,7 +22,18 @@ const vehicles = [
     imgSrc:
       'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
   },
-];
+]);
+
+const refreshVehicles = async () => {
+  vehicles.value = (await getVehicles()).map(vehicle => ({
+    id: vehicle.id,
+    make: vehicle.make,
+    model: vehicle.model,
+    year: vehicle.year,
+    class: vehicle.price_class.toLowerCase(),
+    imgSrc: vehicle.image,
+  }));
+}
 
 const makeVehicleTitle = (vehicle) =>
   `${vehicle.make} ${vehicle.model} ${vehicle.year}`;
@@ -87,6 +99,8 @@ const deleteVehicle = () => {
   );
   showDeleteDialog.value = false;
 };
+
+refreshVehicles();
 </script>
 
 <template>
