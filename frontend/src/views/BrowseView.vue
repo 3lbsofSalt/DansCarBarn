@@ -55,12 +55,81 @@
                 est total
               </div>
             </div>
-            <v-btn class="selectButton"> Select </v-btn>
+            <v-btn class="selectButton" @click="currentVehicleForDialog(car)">
+              Select
+            </v-btn>
           </div>
         </v-card-subtitle>
       </v-card>
     </div>
   </div>
+  <v-dialog v-model="dialogOpen" width="full">
+    <v-card>
+      <v-img
+        class="white--text align-end"
+        width="100%"
+        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.mecum.com%2Fauctions%2Fpj0617%2Fpj0617-287856%2Fimages%2Fpj0617-287856_3%402x.jpg%3F1496865185000&f=1&nofb=1&ipt=dd41511128908d90568dcdb741dd0ddf28903f35dfa672dfa7310bb80bc0004e&ipo=images"
+      />
+      <div class="dialog">
+        <v-card-title style="font-weight: 700">
+          {{
+            currentVehicleDialog.make +
+            ' ' +
+            currentVehicleDialog.model +
+            ' ' +
+            currentVehicleDialog.year
+          }}
+        </v-card-title>
+        <div class="dialogMoneyStuff">
+          <div
+            style="font-weight: 700"
+            v-if="currentVehicleDialog.price_class === 'GOLD'"
+          >
+            150 R$/day
+          </div>
+          <div
+            style="font-weight: 700"
+            v-else-if="currentVehicleDialog.price_class === 'SILVER'"
+          >
+            100 R$/day
+          </div>
+          <div
+            style="font-weight: 700"
+            v-else-if="currentVehicleDialog.price_class === 'BRONZE'"
+          >
+            50 R$/day
+          </div>
+          <div class="estimate">
+            $<span v-if="currentVehicleDialog.price_class === 'GOLD'">{{
+              (
+                ((dateRange[1] - dateRange[0]) / (1000 * 60 * 60 * 24)) *
+                150
+              ).toFixed(2)
+            }}</span>
+            <span v-else-if="currentVehicleDialog.price_class === 'SILVER'">{{
+              (
+                ((dateRange[1] - dateRange[0]) / (1000 * 60 * 60 * 24)) *
+                100
+              ).toFixed(2)
+            }}</span>
+            <span v-else-if="currentVehicleDialog.price_class === 'BRONZE'">{{
+              (
+                ((dateRange[1] - dateRange[0]) / (1000 * 60 * 60 * 24)) *
+                50
+              ).toFixed(2)
+            }}</span>
+            est total
+          </div>
+          <div>
+            <div>Start Date: {{ dateRange[0].toLocaleDateString() }}</div>
+            <div>End Date: {{ dateRange[1].toLocaleDateString() }}</div>
+          </div>
+        </div>
+      </div>
+      <v-btn> Checkout </v-btn>
+    </v-card>
+    <v-btn @click="dialogOpen = false"> Close </v-btn>
+  </v-dialog>
 </template>
 
 <script setup>
@@ -73,6 +142,8 @@ const vehiclesUrl = 'http://localhost:3001/vehicle';
 const dateRange = ref();
 const search = ref('');
 const carsFiltered = ref(allCars);
+const dialogOpen = ref(false);
+const currentVehicleDialog = ref();
 
 const filterCars = () => {
   let returnCars = [];
@@ -88,6 +159,11 @@ const filterCars = () => {
   }
   carsFiltered.value = returnCars;
 };
+
+function currentVehicleForDialog(car) {
+  currentVehicleDialog.value = car;
+  dialogOpen.value = true;
+}
 
 onMounted(() => {
   const startDate = new Date();
@@ -111,6 +187,12 @@ body {
 .hide {
   visibility: hidden;
 }
+.dialog {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 50px;
+  margin-right: 50px;
+}
 .gridBrowsePinto {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -121,6 +203,10 @@ body {
   display: flex;
   justify-content: space-between;
   font-weight: 700;
+}
+.dialogCarSubtitle {
+  display: flex;
+  flex-direction: column;
 }
 .GOLD {
   font-size: 12px;
