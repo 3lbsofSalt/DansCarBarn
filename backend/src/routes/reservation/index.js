@@ -29,6 +29,7 @@ router.post('/', async (req, res, next) => {
 });
 
 router.get('/', async (req, res, next) => {
+
   const [error, results] = await safeAwait(models.Reservation.findAll());
 
   if(error) {
@@ -69,6 +70,5 @@ router.put('/status/:id', async (req, res, next) => {
 
   return res.sendStatus(200);
 });
-
 
 export default router;
