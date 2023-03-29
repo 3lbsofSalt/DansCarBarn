@@ -1,27 +1,24 @@
 <script setup>
 import { reactive, ref, computed } from 'vue';
+import {
+  getVehicles,
+  postVehicle,
+  deleteVehicle as apiDeleteVehicle,
+} from '../../api/manage/vehicles';
 import ManageVehiclesCard from '../../components/ManageVehiclesCard.vue';
 
-const vehicles = [
-  {
-    id: 1,
-    make: 'Ford',
-    model: 'Pinto',
-    year: 1972,
-    class: 'gold',
-    imgSrc:
-      'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
-  },
-  {
-    id: 2,
-    make: 'Ford',
-    model: 'Pinto',
-    year: 1972,
-    class: 'gold',
-    imgSrc:
-      'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
-  },
-];
+const vehicles = ref([]);
+
+const refreshVehicles = async () => {
+  vehicles.value = (await getVehicles()).map((vehicle) => ({
+    id: vehicle.id,
+    make: vehicle.make,
+    model: vehicle.model,
+    year: vehicle.year,
+    class: vehicle.price_class && vehicle.price_class.toLowerCase(),
+    imgSrc: vehicle.image,
+  }));
+};
 
 const makeVehicleTitle = (vehicle) =>
   `${vehicle.make} ${vehicle.model} ${vehicle.year}`;
@@ -53,15 +50,22 @@ const showCreateDialog = ref(false);
 const showDeleteDialog = ref(false);
 
 const createVehicle = () => {
-  console.log(
-    'TODO: Create vehicle with ',
-    createVehicleForm.make,
-    createVehicleForm.model,
-    createVehicleForm.year,
-    createVehicleForm.class,
-    createVehicleForm.img
-  );
-  showCreateDialog.value = false;
+  const reader = new FileReader();
+  reader.readAsDataURL(createVehicleForm.img[0]);
+  reader.onload = async () => {
+    await postVehicle({
+      make: createVehicleForm.make,
+      model: createVehicleForm.model,
+      year: createVehicleForm.year,
+      price_class: createVehicleForm.class
+        ? createVehicleForm.class.toUpperCase()
+        : 'GOLD',
+      image: reader.result,
+    });
+
+    await refreshVehicles();
+    showCreateDialog.value = false;
+  };
 };
 
 const onDelete = (vehicle) => {
@@ -77,16 +81,13 @@ const onDelete = (vehicle) => {
 };
 
 // TODO: call API to delete vehicle
-const deleteVehicle = () => {
-  console.log(
-    'TODO: Delete vehicle with ',
-    selectedDeleteVehicle.id,
-    selectedDeleteVehicle.make,
-    selectedDeleteVehicle.model,
-    selectedDeleteVehicle.year
-  );
+const deleteVehicle = async () => {
+  await apiDeleteVehicle(selectedDeleteVehicle.id);
+  await refreshVehicles();
   showDeleteDialog.value = false;
 };
+
+refreshVehicles();
 </script>
 
 <template>

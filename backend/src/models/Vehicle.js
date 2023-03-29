@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     price_class: {
       type: DataTypes.ENUM('BRONZE', 'SILVER', 'GOLD'),
     },
-    imageId: DataTypes.INTEGER
+    image: DataTypes.TEXT,
+    deleted: DataTypes.BOOLEAN,
   });
 
   return Vehicle;
