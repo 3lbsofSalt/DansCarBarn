@@ -5,24 +5,20 @@ import safeAwait from 'safe-await';
 import models from '../../models';
 
 router.post('/', async (req, res, next) => {
-  const {
-    make,
-    model,
-    year,
-    price_class,
-    image
-  } = req.body;
+  const { make, model, year, price_class, image } = req.body;
 
-  const [error, vehicle] = await safeAwait(models.Vehicle.create({
-    make,
-    model,
-    year,
-    price_class,
-    image,
-    deleted: false,
-  }));
+  const [error, vehicle] = await safeAwait(
+    models.Vehicle.create({
+      make,
+      model,
+      year,
+      price_class,
+      image,
+      deleted: false,
+    })
+  );
 
-  if(error) {
+  if (error) {
     return next(error);
   }
 
@@ -30,18 +26,22 @@ router.post('/', async (req, res, next) => {
 });
 
 router.put('/:id', async (req, res, next) => {
-
   const body = req.body;
 
-  const [error] = await safeAwait(models.Vehicle.update({
-    ...body
-  }, {
-    where: {
-      id,
-    }
-  }));
+  const [error] = await safeAwait(
+    models.Vehicle.update(
+      {
+        ...body,
+      },
+      {
+        where: {
+          id,
+        },
+      }
+    )
+  );
 
-  if(error) {
+  if (error) {
     return next(error);
   }
 
@@ -49,14 +49,18 @@ router.put('/:id', async (req, res, next) => {
 });
 
 router.delete('/:id', async (req, res, next) => {
-  const [error, results] = await safeAwait(models.Vehicle.update({
-    deleted: true,
-  }, {
-    where: {
-      id: req.params.id
-    }
-  }
-  ));
+  const [error, results] = await safeAwait(
+    models.Vehicle.update(
+      {
+        deleted: true,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    )
+  );
 
   if (error) return next(error);
 
@@ -64,13 +68,15 @@ router.delete('/:id', async (req, res, next) => {
 });
 
 router.get('/', async (req, res, next) => {
-  const [error, results] = await safeAwait(models.Vehicle.findAll({
-    where: {
-      deleted: false,
-    }
-  }));
+  const [error, results] = await safeAwait(
+    models.Vehicle.findAll({
+      where: {
+        deleted: false,
+      },
+    })
+  );
 
-  if(error) {
+  if (error) {
     return next(error);
   }
 
