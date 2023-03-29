@@ -1,6 +1,10 @@
 <script setup>
 import { reactive, ref, computed } from 'vue';
-import { getVehicles, postVehicle, deleteVehicle as apiDeleteVehicle } from '../../api/manage/vehicles';
+import {
+  getVehicles,
+  postVehicle,
+  deleteVehicle as apiDeleteVehicle,
+} from '../../api/manage/vehicles';
 import ManageVehiclesCard from '../../components/ManageVehiclesCard.vue';
 
 const vehicles = ref([
@@ -25,7 +29,7 @@ const vehicles = ref([
 ]);
 
 const refreshVehicles = async () => {
-  vehicles.value = (await getVehicles()).map(vehicle => ({
+  vehicles.value = (await getVehicles()).map((vehicle) => ({
     id: vehicle.id,
     make: vehicle.make,
     model: vehicle.model,
@@ -33,7 +37,7 @@ const refreshVehicles = async () => {
     class: vehicle.price_class && vehicle.price_class.toLowerCase(),
     imgSrc: vehicle.image,
   }));
-}
+};
 
 const makeVehicleTitle = (vehicle) =>
   `${vehicle.make} ${vehicle.model} ${vehicle.year}`;
@@ -72,13 +76,15 @@ const createVehicle = () => {
       make: createVehicleForm.make,
       model: createVehicleForm.model,
       year: createVehicleForm.year,
-      price_class: createVehicleForm.class ? createVehicleForm.class.toUpperCase() : 'GOLD',
-      image: reader.result
+      price_class: createVehicleForm.class
+        ? createVehicleForm.class.toUpperCase()
+        : 'GOLD',
+      image: reader.result,
     });
 
     await refreshVehicles();
     showCreateDialog.value = false;
-  }
+  };
 };
 
 const onDelete = (vehicle) => {

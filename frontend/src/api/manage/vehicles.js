@@ -6,19 +6,19 @@ const getVehicles = async () => {
   });
 
   return await res.json();
-}
+};
 
 const postVehicle = async (vehicle) => {
-    const res = await fetch('/vehicle', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(vehicle)
-    });
+  const res = await fetch('/vehicle', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(vehicle),
+  });
 
-    return await res.json();
-}
+  return await res.json();
+};
 
 const deleteVehicle = async (id) => {
   const res = await fetch(`/vehicle/${id}`, {
@@ -26,6 +26,6 @@ const deleteVehicle = async (id) => {
   });
 
   return await res.json();
-}
+};
 
 export { getVehicles, postVehicle, deleteVehicle };
