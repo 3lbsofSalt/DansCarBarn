@@ -21,13 +21,10 @@ fs.readdirSync(__dirname)
       sequelize,
       Sequelize.DataTypes
     );
-    console.log(Object.keys(model));
     db[model.name] = model;
   });
 
 Object.keys(db).forEach((modelName) => {
-  console.log(db[modelName]);
-
   if ('classMethods' in db[modelName].options) {
     if('associate' in db[modelName].options.classMethods) {
       db[modelName].options.classMethods.associate(db);
