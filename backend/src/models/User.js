@@ -4,9 +4,15 @@ import safeAwait from 'safe-await';
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     email: DataTypes.STRING,
-    hash: DataTypes.STRING,
+    hash: {
+      type: DataTypes.STRING,
+    },
     balance: DataTypes.INTEGER,
-    role: DataTypes.ENUM('CUSTOMER', 'EMPLOYEE', 'MANAGER')
+    role: DataTypes.ENUM('CUSTOMER', 'EMPLOYEE', 'MANAGER'),
+    active: {
+      type: DataTypes.BOOLEAN,
+      default: true
+    }
   });
 
   User.prototype.checkPassword = async function (password) {

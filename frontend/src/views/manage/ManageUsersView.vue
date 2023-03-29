@@ -1,25 +1,10 @@
 <script setup>
-import { reactive, ref } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
+import { getAll, create, update } from '../../api/user.js';
 
-const users = [
-  {
-    id: 1,
-    email: 'hyrumcoop@gmail.com',
-    role: 'Manager',
-  },
-  {
-    id: 2,
-    email: 'dan.watson@usu.edu',
-    role: 'Customer',
-  },
-  {
-    id: 3,
-    email: 'shawn.thorne9@gmail.com',
-    role: 'Employee',
-  },
-];
+const users = ref([]);
 
-const roles = ['Manager', 'Employee', 'Customer'];
+const roles = ['MANAGER', 'EMPLOYEE', 'CUSTOMER'];
 
 // state
 const showCreateDialog = ref(false);
@@ -45,15 +30,31 @@ const selectedDeleteUser = reactive({
   email: '',
 });
 
+ onMounted(() => {
+   getUsers();
+ });
+
 // handlers
+
+const getUsers = () => {
+  getAll()
+    .then((res) => {
+      users.value = res.results;
+    });
+}
 
 const createUser = () => {
   console.log(
-    'TODO: Create user with ',
     createUserForm.email,
     createUserForm.password,
     createUserForm.role
   );
+
+  create(createUserForm.email, createUserForm.password, createUserForm.role.toUpperCase())
+    .then(() => {
+      getUsers();
+    });
+
   showCreateDialog.value = false;
 };
 
@@ -72,13 +73,11 @@ const editUser = (user) => {
 
 // call API to update user
 const updateUser = () => {
-  console.log(
-    'TODO: Update user with ',
-    editUserForm.id,
-    editUserForm.email,
-    editUserForm.password,
-    editUserForm.role
-  );
+  update(editUserForm.id, editUserForm.password, editUserForm.role)
+   .then(() => {
+     getUsers();
+   });
+
   showEditDialog.value = false;
 };
 
