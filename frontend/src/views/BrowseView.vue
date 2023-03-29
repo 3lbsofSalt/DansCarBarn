@@ -63,7 +63,7 @@
       </v-card>
     </div>
   </div>
-  <v-dialog v-model="dialogOpen" width="full">
+  <v-dialog v-model="dialogOpen" width="auto">
     <v-card>
       <v-img
         class="white--text align-end"
@@ -216,7 +216,6 @@ body {
   padding: 0px 10px;
   border-radius: 4px;
 }
-
 .SILVER {
   font-size: 12px;
   background-color: silver;
