@@ -8,7 +8,7 @@ const getVehicles = async () => {
   return await res.json();
 }
 
-const createVehicle = async (vehicle) => {
+const postVehicle = async (vehicle) => {
     const res = await fetch('/vehicle', {
         method: 'POST',
         headers: {
@@ -20,4 +20,4 @@ const createVehicle = async (vehicle) => {
     return await res.json();
 }
 
-export { getVehicles, createVehicle };
+export { getVehicles, postVehicle };

@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref, computed } from 'vue';
-import { getVehicles } from '../../api/manage/vehicles';
+import { getVehicles, postVehicle } from '../../api/manage/vehicles';
 import ManageVehiclesCard from '../../components/ManageVehiclesCard.vue';
 
 const vehicles = ref([
@@ -30,7 +30,7 @@ const refreshVehicles = async () => {
     make: vehicle.make,
     model: vehicle.model,
     year: vehicle.year,
-    class: vehicle.price_class.toLowerCase(),
+    class: vehicle.price_class && vehicle.price_class.toLowerCase(),
     imgSrc: vehicle.image,
   }));
 }
@@ -65,15 +65,20 @@ const showCreateDialog = ref(false);
 const showDeleteDialog = ref(false);
 
 const createVehicle = () => {
-  console.log(
-    'TODO: Create vehicle with ',
-    createVehicleForm.make,
-    createVehicleForm.model,
-    createVehicleForm.year,
-    createVehicleForm.class,
-    createVehicleForm.img
-  );
-  showCreateDialog.value = false;
+  const reader = new FileReader();
+  reader.readAsDataURL(createVehicleForm.img[0]);
+  reader.onload = async () => {
+    await postVehicle({
+      make: createVehicleForm.make,
+      model: createVehicleForm.model,
+      year: createVehicleForm.year,
+      price_class: createVehicleForm.class ? createVehicleForm.class.toUpperCase() : 'GOLD',
+      image: reader.result
+    });
+
+    await refreshVehicles();
+    showCreateDialog.value = false;
+  }
 };
 
 const onDelete = (vehicle) => {
