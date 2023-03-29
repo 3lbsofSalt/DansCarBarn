@@ -1,8 +1,12 @@
 import express from 'express';
+import { isLoggedIn, hasRole } from '../../lib/auth';
 const router = express.Router();
 
 import safeAwait from 'safe-await';
 import models from '../../models';
+
+router.use(isLoggedIn);
+router.use(hasRole('MANAGER'));
 
 router.post('/', async (req, res, next) => {
   const { make, model, year, price_class, image } = req.body;
