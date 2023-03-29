@@ -5,17 +5,16 @@ module.exports = (sequelize, DataTypes) => {
     transactionId: DataTypes.INTEGER,
     start: DataTypes.DATE,
     end: DataTypes.DATE,
-    status: DataTypes.ENUM('SCHEDULED', 'IN_TRANSIT', 'RETURNED', 'CANCELED')
+    status: DataTypes.STRING //DataTypes.ENUM('SCHEDULED', 'IN_TRANSIT', 'RETURNED', 'CANCELED'),
   }, {
     classMethods: {
       associate: function(models) {
         Reservation.belongsTo(models.User);
+        Reservation.belongsTo(models.Vehicle)
         Reservation.hasOne(models.Vehicle);
       }
     }
   });
-
-
 
   return Reservation;
 }
