@@ -20,4 +20,12 @@ const postVehicle = async (vehicle) => {
     return await res.json();
 }
 
-export { getVehicles, postVehicle };
+const deleteVehicle = async (id) => {
+  const res = await fetch(`/vehicle/${id}`, {
+    method: 'DELETE',
+  });
+
+  return await res.json();
+}
+
+export { getVehicles, postVehicle, deleteVehicle };

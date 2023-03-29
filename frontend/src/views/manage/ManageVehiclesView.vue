@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref, computed } from 'vue';
-import { getVehicles, postVehicle } from '../../api/manage/vehicles';
+import { getVehicles, postVehicle, deleteVehicle as apiDeleteVehicle } from '../../api/manage/vehicles';
 import ManageVehiclesCard from '../../components/ManageVehiclesCard.vue';
 
 const vehicles = ref([
@@ -94,14 +94,9 @@ const onDelete = (vehicle) => {
 };
 
 // TODO: call API to delete vehicle
-const deleteVehicle = () => {
-  console.log(
-    'TODO: Delete vehicle with ',
-    selectedDeleteVehicle.id,
-    selectedDeleteVehicle.make,
-    selectedDeleteVehicle.model,
-    selectedDeleteVehicle.year
-  );
+const deleteVehicle = async () => {
+  await apiDeleteVehicle(selectedDeleteVehicle.id);
+  await refreshVehicles();
   showDeleteDialog.value = false;
 };
 
