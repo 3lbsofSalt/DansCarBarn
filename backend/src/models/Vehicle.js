@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     price_class: {
       type: DataTypes.STRING, //DataTypes.ENUM('BRONZE', 'SILVER', 'GOLD'),
     },
-    imageId: DataTypes.INTEGER
+    image: DataTypes.TEXT,
+    deleted: DataTypes.BOOLEAN,
   }, {
     classMethods: {
       associate: function(models) {
