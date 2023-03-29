@@ -7,26 +7,7 @@ import {
 } from '../../api/manage/vehicles';
 import ManageVehiclesCard from '../../components/ManageVehiclesCard.vue';
 
-const vehicles = ref([
-  {
-    id: 1,
-    make: 'Ford',
-    model: 'Pinto',
-    year: 1972,
-    class: 'gold',
-    imgSrc:
-      'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
-  },
-  {
-    id: 2,
-    make: 'Ford',
-    model: 'Pinto',
-    year: 1972,
-    class: 'gold',
-    imgSrc:
-      'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
-  },
-]);
+const vehicles = ref([]);
 
 const refreshVehicles = async () => {
   vehicles.value = (await getVehicles()).map((vehicle) => ({

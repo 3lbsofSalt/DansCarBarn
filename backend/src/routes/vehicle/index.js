@@ -80,8 +80,6 @@ router.get('/', async (req, res, next) => {
     return next(error);
   }
 
-  console.log(results);
-
   return res.status(200).json(results);
 });
 
