@@ -62,4 +62,25 @@ router.get('/all', async (req, res, next) => {
 
 });
 
+router.get('/browse', async (req, res, next) => {
+  const {
+    start,
+    end
+  } = req.params;
+
+  const [error, results] = await safeAwait(models.Vehicle.findAll({
+    include: [{
+      model: models.Reservation
+    }]
+  }));
+
+  if(error) {
+    return next(error);
+  }
+
+  return res.status(200).json({
+    results
+  });
+});
+
 export default router;

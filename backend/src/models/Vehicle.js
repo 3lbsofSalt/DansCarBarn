@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     model: DataTypes.STRING,
     year: DataTypes.INTEGER,
     price_class: {
-      type: DataTypes.ENUM('BRONZE', 'SILVER', 'GOLD'),
+      type: DataTypes.STRING //DataTypes.ENUM('BRONZE', 'SILVER', 'GOLD'),
     },
     imageId: DataTypes.INTEGER
   });
