@@ -12,6 +12,7 @@
         v-model="dateRange"
         range
         :enable-time-picker="false"
+        @change="filterDate"
       ></VueDatePicker>
     </div>
     <div class="gridBrowsePinto">
@@ -138,10 +139,10 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
 const allCars = ref();
-const vehiclesUrl = 'http://localhost:3001/vehicle';
+const vehiclesUrl = 'http://localhost:3001/vehicle/browse';
 const dateRange = ref();
 const search = ref('');
-const carsFiltered = ref(allCars);
+const carsFiltered = ref();
 const dialogOpen = ref(false);
 const currentVehicleDialog = ref();
 
@@ -157,7 +158,15 @@ const filterCars = () => {
       returnCars.push(car);
     }
   }
+
   carsFiltered.value = returnCars;
+};
+
+const filterDate = async () => {
+  let url = new URL(vehiclesUrl);
+  url.searchParams.append('start', dateRange.value[0]);
+  url.searchParams.append('end', dateRange.value[1]);
+  allCars.value = (await (await fetch(vehiclesUrl)).json()).results;
 };
 
 function currentVehicleForDialog(car) {
@@ -172,7 +181,8 @@ onMounted(() => {
 });
 
 onBeforeMount(async () => {
-  allCars.value = (await (await fetch(vehiclesUrl + '/')).json()).results;
+  allCars.value = (await (await fetch(vehiclesUrl)).json()).results;
+  carsFiltered.value = (await (await fetch(vehiclesUrl)).json()).results;
 });
 </script>
 
