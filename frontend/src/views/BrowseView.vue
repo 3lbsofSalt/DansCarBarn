@@ -172,7 +172,7 @@ onMounted(() => {
 });
 
 onBeforeMount(async () => {
-  allCars.value = (await (await fetch(vehiclesUrl + '/all')).json()).results;
+  allCars.value = (await (await fetch(vehiclesUrl + '/')).json()).results;
 });
 </script>
 
