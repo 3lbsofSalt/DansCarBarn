@@ -6,16 +6,19 @@ import models from '../../models';
 
 router.post('/', async (req, res, next) => {
   const {
-    userId,
-    vehicleId,
+    userId: UserId,
+    vehicleId: VehicleId,
     start,
     end,
     status = 'SCHEDULED',
   } = req.body;
 
+  console.log(new Date(start));
+  console.log(new Date(end));
+
   const [error] = await safeAwait(models.Reservation.create({
-    userId,
-    vehicleId,
+    UserId,
+    VehicleId,
     start,
     end,
     status
