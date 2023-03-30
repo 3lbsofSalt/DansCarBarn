@@ -14,28 +14,23 @@
         type="password"
         hide-details="auto"
       ></v-text-field>
-      <v-btn
-        variant="tonal"
-        size="large"
-        @click="login"
-      >Login</v-btn>
+      <v-btn variant="tonal" size="large" @click="login">Login</v-btn>
     </div>
   </div>
 </template>
 
 <script>
- import { login } from '../api/login.js';
- export default {
-   data: () => ({
-     email: '',
-     password: ''
-   }),
-   methods: {
-     login: function() {
-       login(this.email, this.password)
-        .catch((err) => {
-          console.log(err);
-        });
+import { login } from '../api/login.js';
+export default {
+  data: () => ({
+    email: '',
+    password: '',
+  }),
+  methods: {
+    login: function () {
+      login(this.email, this.password).catch((err) => {
+        console.log(err);
+      });
     },
   },
 };

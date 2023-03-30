@@ -127,7 +127,7 @@
           </div>
         </div>
       </div>
-      <v-btn> Checkout </v-btn>
+      <v-btn @click="checkoutVehicle(currentVehicleDialog.id)">Checkout</v-btn>
     </v-card>
     <v-btn @click="dialogOpen = false"> Close </v-btn>
   </v-dialog>
@@ -137,6 +137,7 @@
 import { onBeforeMount, onMounted, ref } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
+import { useRouter } from 'vue-router';
 
 const allCars = ref();
 const vehiclesUrl = 'http://localhost:3001/vehicle/browse';
@@ -145,6 +146,7 @@ const search = ref('');
 const carsFiltered = ref();
 const dialogOpen = ref(false);
 const currentVehicleDialog = ref();
+const router = useRouter();
 
 const filterCars = () => {
   let returnCars = [];
@@ -168,6 +170,12 @@ const filterDate = async () => {
   url.searchParams.append('end', dateRange.value[1]);
   allCars.value = (await (await fetch(vehiclesUrl)).json()).results;
 };
+
+function checkoutVehicle(id){
+  console.log('here');
+  console.log(id);
+  router.push({ name: 'checkout-vehicle', params: { id } });
+}
 
 function currentVehicleForDialog(car) {
   currentVehicleDialog.value = car;

@@ -3,6 +3,7 @@ import AppWireframe from '../components/AppWireframe.vue';
 
 import LoginView from '../views/LoginView.vue';
 import BrowseView from '../views/BrowseView.vue';
+import CheckoutView from '../views/CheckoutView.vue';
 import ReservationsView from '../views/ReservationsView.vue';
 
 import ManageView from '../views/manage/ManageView.vue';
@@ -27,6 +28,11 @@ const router = createRouter({
           path: 'browse',
           name: 'browse',
           component: BrowseView,
+        },
+        {
+          path: 'checkout/:id',
+          name: 'checkout-vehicle',
+          component: CheckoutView,
         },
         {
           path: 'reservations',
