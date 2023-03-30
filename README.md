@@ -56,3 +56,7 @@ The project also uses a PostgreSQL database for persistent storage in production
 ## Building and Testing
 
 The frontend and backend are built/tested independently from each other. For further instructions, seek the `frontend/README.md` regarding the frontend, and `backend/README.md` regarding the backend.
+
+## Sprint Reports Path
+
+`DansCarBarn/docs/planning/`
