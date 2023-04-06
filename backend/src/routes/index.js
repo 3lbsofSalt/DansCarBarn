@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/user', user);
-router.use('/user', login);
+router.use('/', login);
 router.use('/reservation', reservation);
 
 export default router;

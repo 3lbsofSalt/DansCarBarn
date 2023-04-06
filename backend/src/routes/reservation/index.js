@@ -24,7 +24,7 @@ router.post('/', async (req, res, next) => {
     status
   }));
 
-  if(error) {
+  if (error) {
     return next(error);
   }
 
@@ -32,42 +32,48 @@ router.post('/', async (req, res, next) => {
 });
 
 router.get('/', async (req, res, next) => {
-
   const [error, results] = await safeAwait(models.Reservation.findAll());
 
-  if(error) {
+  if (error) {
     return next(error);
   }
 
   return res.status(200).json({
-    results
+    results,
   });
 });
 
 router.get('/:id', async (req, res, next) => {
-  const [error, result] = await safeAwait(models.Reservation.findByPk(req.params.id));
+  const [error, result] = await safeAwait(
+    models.Reservation.findByPk(req.params.id)
+  );
 
-  if(error) { return next(error); }
+  if (error) {
+    return next(error);
+  }
 
   return res.status(200).json({
-    result
+    result,
   });
 });
 
 router.put('/status/:id', async (req, res, next) => {
-  const {
-    status
-  } = req.body;
+  const { status } = req.body;
 
-  const [error] = await safeAwait(models.Reservation.update({
-    status
-  }, {
-    where: {
-      id: req.params.id
-    }
-  }));
+  const [error] = await safeAwait(
+    models.Reservation.update(
+      {
+        status,
+      },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    )
+  );
 
-  if(error) {
+  if (error) {
     next(error);
   }
 

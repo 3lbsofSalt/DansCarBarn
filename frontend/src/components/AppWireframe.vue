@@ -14,7 +14,7 @@ import { RouterView } from 'vue-router';
         <v-btn variant="flat" :to="{ name: 'reservations' }"
           >Reservations</v-btn
         >
-        <v-btn variant="flat" :to="{ name: 'manage' }">Manage</v-btn>
+        <v-btn variant="flat" :to="{ name: 'manage-reservations' }">Manage</v-btn>
       </div>
 
       <div

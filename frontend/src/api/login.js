@@ -1,7 +1,7 @@
 import fetch from './index.js';
 
-const login = (email, password) => {
-  return fetch('/user/login', {
+const login = async (email, password) => {
+  const res = await fetch('/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -10,11 +10,12 @@ const login = (email, password) => {
       email,
       password
     })
-  })
-    .then((response) => response.json())
-    .then((res) => {
-      localStorage.setItem('auth', res.token);
-    });
+  });
+
+  const data = await res.json();
+  localStorage.setItem('auth', data.token);
+
+  return data.token;
 }
 
 export { login };
