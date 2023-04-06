@@ -30,7 +30,7 @@ const router = createRouter({
           component: BrowseView,
         },
         {
-          path: 'checkout/:id',
+          path: 'checkout/:id/:startDate/:endDate',
           name: 'checkout-vehicle',
           component: CheckoutView,
         },
