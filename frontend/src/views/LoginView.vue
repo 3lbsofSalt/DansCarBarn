@@ -26,10 +26,16 @@
 <script setup>
 import { reactive } from 'vue';
 import { useUserStore } from '../stores/user';
+import { routerKey, useRouter } from 'vue-router';
+
 const { login: apiLogin } = useUserStore();
+const router = useRouter();
 
 const form = reactive({ email: '', password: '' });
-const login = async () => apiLogin(form.email, form.password);
+const login = async () => {
+  await apiLogin(form.email, form.password);
+  router.push('/');
+}
 </script>
 
 <style scoped>
