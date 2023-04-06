@@ -21,7 +21,7 @@ import { RouterView } from 'vue-router';
         id="app-navbar-profile-box"
         class="navbar-group d-flex flex-grow-1 justify-end"
       >
-        <v-icon icon="mdi-account-circle" size="x-large" />
+        <v-btn icon="mdi-account-circle" :to="{ name: 'user'}"/>
       </div>
     </div>
 
