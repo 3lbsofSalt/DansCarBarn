@@ -10,6 +10,7 @@ import ManageView from '../views/manage/ManageView.vue';
 import ManageVehiclesView from '../views/manage/ManageVehiclesView.vue';
 import ManageUsersView from '../views/manage/ManageUsersView.vue';
 import ManageReservationsView from '../views/manage/ManageReservationsView.vue';
+import { loginGuard, roleGuard } from './auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,6 +24,7 @@ const router = createRouter({
       path: '/',
       component: AppWireframe,
       redirect: { name: 'browse' },
+      beforeEnter: loginGuard,
       children: [
         {
           path: 'browse',
@@ -39,16 +41,19 @@ const router = createRouter({
           name: 'manage',
           component: ManageView,
           redirect: { name: 'manage-vehicles' },
+          beforeEnter: roleGuard('EMPLOYEE', 'MANAGER'),
           children: [
             {
               path: 'vehicles',
               name: 'manage-vehicles',
               component: ManageVehiclesView,
+              beforeEnter: roleGuard('MANAGER'),
             },
             {
               path: 'users',
               name: 'manage-users',
               component: ManageUsersView,
+              beforeEnter: roleGuard('MANAGER'),
             },
             {
               path: 'reservations',

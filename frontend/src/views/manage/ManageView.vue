@@ -1,10 +1,20 @@
 <script setup>
 import { useRouter, useRoute, RouterView } from 'vue-router';
+import { useUserStore } from '../../stores/user';
+
+const { userToken } = useUserStore();
 
 const router = useRouter();
 const route = useRoute();
 
-const navLinks = [
+const baseNavLinks = [
+  {
+    title: 'Reservations',
+    value: 'manage-reservations',
+  },
+];
+
+const managerNavLinks = [
   {
     title: 'Vehicles',
     value: 'manage-vehicles',
@@ -13,11 +23,9 @@ const navLinks = [
     title: 'Users',
     value: 'manage-users',
   },
-  {
-    title: 'Reservations',
-    value: 'manage-reservations',
-  },
 ];
+
+const navLinks = userToken.payload.role === 'MANAGER' ? [...baseNavLinks, ...managerNavLinks] : baseNavLinks;
 
 const onNavSelect = ({ id }) => router.push({ name: id });
 </script>
