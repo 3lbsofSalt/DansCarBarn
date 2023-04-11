@@ -1,11 +1,14 @@
 import express from 'express';
+import { isLoggedIn, hasRole } from '../../lib/auth';
 const router = express.Router();
 import { Op } from 'sequelize';
 
 import safeAwait from 'safe-await';
 import models from '../../models';
 
-router.post('/', async (req, res, next) => {
+router.use(isLoggedIn);
+
+router.post('/', hasRole('MANAGER'), async (req, res, next) => {
   const { make, model, year, price_class, image } = req.body;
 
   const [error, vehicle] = await safeAwait(
@@ -26,7 +29,7 @@ router.post('/', async (req, res, next) => {
   return res.json(vehicle);
 });
 
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', hasRole('MANAGER'), async (req, res, next) => {
   const body = req.body;
 
   const [error] = await safeAwait(
@@ -49,7 +52,7 @@ router.put('/:id', async (req, res, next) => {
   return res.sendStatus(200);
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', hasRole('MANAGER'), async (req, res, next) => {
   const [error, results] = await safeAwait(
     models.Vehicle.update(
       {

@@ -3,13 +3,13 @@
     <div class="login-container d-flex flex-column">
       <h1 class="dcb-title">DCB</h1>
       <v-text-field
-        v-model="email"
+        v-model="form.email"
         label="Email"
         type="email"
         hide-details="auto"
       ></v-text-field>
       <v-text-field
-        v-model="password"
+        v-model="form.password"
         label="Password"
         type="password"
         hide-details="auto"
@@ -19,21 +19,19 @@
   </div>
 </template>
 
-<script>
-import { login } from '../api/login.js';
-export default {
-  data: () => ({
-    email: '',
-    password: '',
-  }),
-  methods: {
-    login: function () {
-      login(this.email, this.password).catch((err) => {
-        console.log(err);
-      });
-    },
-  },
-};
+<script setup>
+import { reactive } from 'vue';
+import { useUserStore } from '../stores/user';
+import { routerKey, useRouter } from 'vue-router';
+
+const { login: apiLogin } = useUserStore();
+const router = useRouter();
+
+const form = reactive({ email: '', password: '' });
+const login = async () => {
+  await apiLogin(form.email, form.password);
+  router.push('/');
+}
 </script>
 
 <style scoped>

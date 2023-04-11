@@ -1,5 +1,8 @@
 <script setup>
 import { RouterView } from 'vue-router';
+import { useUserStore } from '../stores/user';
+
+const { userToken } = useUserStore();
 </script>
 
 <template>
@@ -14,14 +17,18 @@ import { RouterView } from 'vue-router';
         <v-btn variant="flat" :to="{ name: 'reservations' }"
           >Reservations</v-btn
         >
-        <v-btn variant="flat" :to="{ name: 'manage' }">Manage</v-btn>
+        <v-btn
+          variant="flat"
+          :to="{ name: 'manage-reservations' }"
+          v-if="['EMPLOYEE', 'MANAGER'].includes(userToken.payload.role)"
+        >Manage</v-btn>
       </div>
 
       <div
         id="app-navbar-profile-box"
         class="navbar-group d-flex flex-grow-1 justify-end"
       >
-        <v-icon icon="mdi-account-circle" size="x-large" />
+        <v-btn icon="mdi-account-circle" :to="{ name: 'user'}"/>
       </div>
     </div>
 

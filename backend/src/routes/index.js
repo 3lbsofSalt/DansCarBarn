@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import user from './user/';
+import login from './user/login';
 import vehicle from './vehicle/index.js';
 import reservation from './reservation/index.js';
 
@@ -11,6 +12,7 @@ router.get('/', (req, res) => {
 });
 
 router.use('/user', user);
+router.use('/', login);
 router.use('/reservation', reservation);
 
 export default router;
