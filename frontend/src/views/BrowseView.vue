@@ -138,7 +138,7 @@ import { onBeforeMount, onMounted, ref } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import { useRouter } from 'vue-router';
-
+import fetch from '../api';
 const allCars = ref();
 const vehiclesUrl = 'http://localhost:3001/vehicle/browse';
 const dateRange = ref();
@@ -168,7 +168,7 @@ const filterDate = async () => {
   let url = new URL(vehiclesUrl);
   url.searchParams.append('start', dateRange.value[0]);
   url.searchParams.append('end', dateRange.value[1]);
-  allCars.value = (await (await fetch(vehiclesUrl)).json()).results;
+  allCars.value = (await (await fetch(vehiclesUrl,{})).json()).results;
 };
 
 function checkoutVehicle(id){
@@ -189,8 +189,8 @@ onMounted(() => {
 });
 
 onBeforeMount(async () => {
-  allCars.value = (await (await fetch(vehiclesUrl)).json()).results;
-  carsFiltered.value = (await (await fetch(vehiclesUrl)).json()).results;
+  allCars.value = (await (await fetch(vehiclesUrl,{})).json()).results;
+  carsFiltered.value = (await (await fetch(vehiclesUrl,{})).json()).results;
 });
 </script>
 
