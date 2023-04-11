@@ -90,27 +90,6 @@ router.get('/', async (req, res, next) => {
   return res.status(200).json(results);
 });
 
-router.get('/:id', async (req, res, next) => {
-  const [error, results] = await safeAwait(
-    models.Vehicle.findOne({
-      where: {
-        id: req.params.id,
-      },
-      include: [
-        {
-          model: models.Reservation,
-          as: 'Reservations',
-        },
-      ],
-    })
-  );
-  if (error) {
-    return next(error);
-  }
-
-  return res.status(200).json(results);
-});
-
 router.get('/browse', async (req, res, next) => {
   const {
     start, // Takes the form "MM/DD/YYYY"

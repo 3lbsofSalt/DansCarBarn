@@ -174,10 +174,7 @@ const filterDate = async () => {
 function checkoutVehicle(id){
   console.log('here');
   console.log(id);
-  router.push({
-    name: 'checkout-vehicle',
-    params: { id, startDate: dateRange.value[0], endDate: dateRange.value[1] },
-  });
+  router.push({ name: 'checkout-vehicle', params: { id } });
 }
 
 function currentVehicleForDialog(car) {
