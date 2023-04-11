@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import AppWireframe from '../components/AppWireframe.vue';
 
 import LoginView from '../views/LoginView.vue';
+import UserView from '../views/UserView.vue';
 import BrowseView from '../views/BrowseView.vue';
 import CheckoutView from '../views/CheckoutView.vue';
 import ReservationsView from '../views/ReservationsView.vue';
@@ -61,6 +62,11 @@ const router = createRouter({
               component: ManageReservationsView,
             },
           ],
+        },
+        {
+          path: '/user',
+          name: 'user',
+          component: UserView,
         },
       ],
     },
