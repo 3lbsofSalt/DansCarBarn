@@ -19,7 +19,7 @@ const { userToken } = useUserStore();
         >
         <v-btn
           variant="flat"
-          :to="{ name: 'manage-reservations' }"
+          :to="{ name: 'manage' }"
           v-if="['EMPLOYEE', 'MANAGER'].includes(userToken.payload.role)"
         >Manage</v-btn>
       </div>
