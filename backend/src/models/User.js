@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
+  User.prototype.modifyUserBalance = function(amount) {
+    this.balance -= amount;
+    return this;
+  }
+
   User.prototype.checkPassword = async function (password) {
     const [hashError, hashToCheck] = await safeAwait(hashPassword(password));
 

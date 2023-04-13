@@ -10,8 +10,9 @@ module.exports = (sequelize, DataTypes) => {
     classMethods: {
       associate: function(models) {
         Reservation.belongsTo(models.User);
-        Reservation.belongsTo(models.Vehicle)
+        Reservation.belongsTo(models.Vehicle);
         Reservation.hasOne(models.Vehicle);
+        Reservation.hasOne(models.Transaction);
       }
     }
   });
