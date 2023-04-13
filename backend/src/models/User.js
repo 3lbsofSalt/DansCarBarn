@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     role: DataTypes.STRING, //DataTypes.ENUM('CUSTOMER', 'EMPLOYEE', 'MANAGER'),
     active: {
       type: DataTypes.BOOLEAN,
-      default: true
-    }
+      default: true,
+    },
   });
 
   User.prototype.checkPassword = async function (password) {

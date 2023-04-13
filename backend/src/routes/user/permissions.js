@@ -5,5 +5,4 @@ import safeAwait from 'safe-await';
 
 import models from '../../models';
 
-
 export default router;
