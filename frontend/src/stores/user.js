@@ -1,8 +1,11 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { login as apiLogin } from '../api/login';
+import { getSelf } from '../api/user';
 
 export const useUserStore = defineStore('user', () => {
+
+  const balance = ref(0);
 
   const parseToken = (t) => {
     const token = {};
@@ -20,5 +23,10 @@ export const useUserStore = defineStore('user', () => {
     userToken.value = parseToken(token);
   }
 
-  return { userToken, parseToken, login };
+  const refreshBalance = async () => {
+    const self = await getSelf();
+    balance.value = self.user.balance;
+  }
+
+  return { userToken, balance, parseToken, login, refreshBalance };
 });
