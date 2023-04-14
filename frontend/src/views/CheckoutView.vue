@@ -40,7 +40,6 @@ const total = ref(0);
 
 let userSelf;
 
-
 onMounted(() => {
   fetch(vehiclesUrl + params['id'], {})
     .then((r) => r.json())
@@ -49,9 +48,9 @@ onMounted(() => {
       let carClass = 100;
       if (car.value.price_class === 'GOLD') {
         carClass = 150;
-      } else if (car.value.price_class === 'SILVER'){
+      } else if (car.value.price_class === 'SILVER') {
         carClass = 100;
-      } else if (car.value.price_class === 'BRONZE'){
+      } else if (car.value.price_class === 'BRONZE') {
         carClass = 50;
       }
       total.value = (
@@ -59,9 +58,7 @@ onMounted(() => {
         carClass
       ).toFixed(2);
     });
-  getSelf()
-    .then((r) => r.json())
-    .then((r) => (userSelf = r));
+  getSelf().then((r) => (userSelf = r));
 });
 
 function checkout() {
@@ -75,8 +72,18 @@ function checkout() {
         ? 'This vehicle was reserved with insurance'
         : 'This vehicle was reserved without insurance',
     }),
-  });
-  
+  }).then(
+    console.log(
+      JSON.stringify({
+        vehicleId: route['id'],
+        userId: userSelf.id,
+        total: insurance.value ? total.value + 10 : total.value,
+        description: insurance.value
+          ? 'This vehicle was reserved with insurance'
+          : 'This vehicle was reserved without insurance',
+      })
+    )
+  );
 }
 </script>
 
