@@ -5,39 +5,31 @@ import models from '../../models';
 import sequelize from 'sequelize';
 
 router.post('/', async (req, res, next) => {
-
-  const {
-    vehicleId,
-    userId,
-    total,
-    description,
-    employeeId,
-  } = req.body;
+  const { vehicleId, userId, total, description } = req.body;
 
   models.Transaction.create({
     vehicleId,
     userId,
     total,
     description,
-    type: 'RESERVATION'
+    type: 'RESERVATION',
   });
 
   const user = await models.User.findByPk(userId);
   const available = user.subtractUserBalance(total);
 
-  if(!available) {
+  if (!available) {
     return res.sendStatus(400);
   }
 
-  const employee = await models.User.findByPk(employeeId);
-  const manager = await models.User.findOne({ where: {
-    role: 'MANAGER'
-  }});
+  const manager = await models.User.findOne({
+    where: {
+      role: 'MANAGER',
+    },
+  });
 
-  employee.addUserBalance(total * .1);
-  manager.addUserBalance(total * .9);
+  manager.addUserBalance(total * 0.9);
 
-  employee.save();
   manager.save();
   user.save();
 
