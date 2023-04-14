@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     classMethods: {
       associate: function(models) {
-        Transaction.belongsTo(models.Reservation);
         Transaction.belongsTo(models.User);
       }
     }

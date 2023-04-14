@@ -16,29 +16,28 @@ router.post('/', async (req, res, next) => {
     status = 'SCHEDULED',
   } = req.body;
 
-  const reserv = await models.Reservation.create({
-    start,
-    end,
-    status,
-    UserId: userId,
-    vehicleId,
-  });
-
-  const trans = await models.Transaction.create({
-    vehicleId,
-    userId,
-    total,
-    description,
-    type: 'RESERVATION',
-    ReservationId: reserv.id,
-  });
-
   const user = await models.User.findByPk(userId);
   const available = user.subtractUserBalance(total);
 
   if (!available) {
     return res.sendStatus(400);
   }
+
+  const trans = await models.Transaction.create({
+    UserId: userId,
+    total,
+    description,
+    type: 'RESERVATION',
+  });
+
+  const reserv = await models.Reservation.create({
+    start,
+    end,
+    status,
+    UserId: userId,
+    VehicleId: vehicleId,
+    TransactionId: trans.id,
+  });
 
   const manager = await models.User.findOne({
     where: {
