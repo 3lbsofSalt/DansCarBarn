@@ -7,7 +7,10 @@ module.exports = (sequelize, DataTypes) => {
     hash: {
       type: DataTypes.STRING,
     },
-    balance: DataTypes.INTEGER,
+    balance: {
+      type: DataTypes.INTEGER,
+      default: 0
+    },
     role: DataTypes.STRING, //DataTypes.ENUM('CUSTOMER', 'EMPLOYEE', 'MANAGER'),
     active: {
       type: DataTypes.BOOLEAN,
@@ -20,12 +23,13 @@ module.exports = (sequelize, DataTypes) => {
       return false;
     }
 
-    this.balance -= amount;
+    this.balance = (this.balance ?? 0) + Number(amount);
     return true;
   }
 
   User.prototype.addUserBalance = function(amount) {
-    this.balance += amount;
+    this.balance = (this.balance ?? 0) + Number(amount);
+    this.save();
     return true;
   }
 

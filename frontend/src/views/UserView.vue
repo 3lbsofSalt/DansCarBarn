@@ -63,12 +63,20 @@
       <p
         v-if="added"
       >Balance Updated</p>
+      <v-btn
+        variant="tonal"
+        size="large"
+        href="/"
+        link
+        @click="logout"
+      >Logout</v-btn>
     </div>
   </div>
 </template>
 
 <script>
  import { addBalance, getSelf } from '../api/user.js';
+ import { useRouter } from 'vue-router';
  export default {
    data: () => ({
      firstname: '',
@@ -89,6 +97,9 @@
         .then((res) => {
           this.userId = res.user.id;
         });
+     },
+     logout: function() {
+       localStorage.removeItem('auth');
      },
      updateBalance: function() {
        if(this.userId === '') return
