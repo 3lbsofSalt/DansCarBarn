@@ -75,6 +75,8 @@ function checkout() {
         ? Math.round(parseInt(total.value)) + 10
         : Math.round(parseInt(total.value)),
       description: insurance.value ? 'with insurance' : 'without insurance',
+      start: startDate,
+      end: endDate
     }),
   }).then((r) => {
     if (r.statusText === 'OK') {

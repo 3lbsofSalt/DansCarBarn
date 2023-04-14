@@ -16,19 +16,23 @@ router.post('/', async (req, res, next) => {
     status = 'SCHEDULED',
   } = req.body;
 
-  const reserv = await models.Reservation.create({
-    start,
-    end,
-    status,
-  });
+  try {
+    const reserv = await models.Reservation.create({
+      start,
+      end,
+      status,
+      vehicleId,
+      userId,
+    });
+  
 
   const trans = await models.Transaction.create({
-    vehicleId,
-    userId,
+    // vehicleId,
     total,
     description,
     type: 'RESERVATION',
     ReservationId: reserv.id,
+    userId
   });
 
   const user = await models.User.findByPk(userId);
@@ -50,6 +54,10 @@ router.post('/', async (req, res, next) => {
   user.save();
 
   return res.sendStatus(200);
+} catch (err) {
+  console.log(err);
+}
 });
+
 
 export default router;
