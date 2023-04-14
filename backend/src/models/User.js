@@ -15,6 +15,20 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  User.prototype.subtractUserBalance = function(amount) {
+    if(this.balance < amount) {
+      return false;
+    }
+
+    this.balance -= amount;
+    return true;
+  }
+
+  User.prototype.addUserBalance = function(amount) {
+    this.balance += amount;
+    return true;
+  }
+
   User.prototype.checkPassword = async function (password) {
     const [hashError, hashToCheck] = await safeAwait(hashPassword(password));
 

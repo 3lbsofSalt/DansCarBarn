@@ -58,12 +58,17 @@
       <v-btn
         variant="tonal"
         size="large"
+        @click="updateBalance"
       >Update Balance</v-btn>
+      <p
+        v-if="added"
+      >Balance Updated</p>
     </div>
   </div>
 </template>
 
 <script>
+ import { addBalance, getSelf } from '../api/user.js';
  export default {
    data: () => ({
      firstname: '',
@@ -71,11 +76,29 @@
      phonenumber: '',
      address: '',
      password: '',
-     balance: ''
+     balance: '',
+     userId: '',
+     added: false
    }),
+   mounted: function() {
+     this.getUser();
+   },
    methods: {
-  },
-};
+     getUser: function() {
+       getSelf()
+        .then((res) => {
+          this.userId = res.user.id;
+        });
+     },
+     updateBalance: function() {
+       if(this.userId === '') return
+       addBalance(this.userId, this.balance)
+        .then(() => {
+          this.added = true;
+        });
+     }
+   },
+ };
 </script>
 
 <style scoped>

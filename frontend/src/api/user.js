@@ -1,5 +1,15 @@
 import fetch from './index.js';
 
+const getSelf = () => {
+  return fetch('/user', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+    .then((response) => response.json());
+};
+
 const getAll = () => {
   return fetch('/user/all', {
     method: 'GET',
@@ -37,4 +47,16 @@ const update = (id, password, role) => {
   });
 }
 
-export { getAll, create, update };
+const addBalance = (id, balance) => {
+  return fetch('/user/' + id + '/balance', {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      total: balance
+    })
+  })
+}
+
+export { getAll, create, update, addBalance, getSelf };

@@ -50,8 +50,6 @@ router.get('/all', async (req, res, next) => {
 router.put('/:id', async (req, res) => {
   const { password, role } = req.body;
 
-  console.log(password);
-  console.log(role);
   const update = {};
 
   if (role) {
@@ -80,6 +78,20 @@ router.put('/:id', async (req, res) => {
     console.log(error);
     return res.sendStatus(500);
   }
+
+  return res.sendStatus(200);
+});
+
+router.put('/:id/balance', async (req, res) => {
+  const { total = 0 } = req.body;
+  console.log(total);
+  console.log(req);
+
+  const user = await models.User.findByPk(req.params.id);
+
+  user.addUserBalance(total);
+
+  user.save();
 
   return res.sendStatus(200);
 });
