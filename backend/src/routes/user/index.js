@@ -7,7 +7,6 @@ import models from '../../models';
 import { hashPassword, isLoggedIn, hasRole } from '../../lib/auth.js';
 
 router.use(isLoggedIn);
-router.use(hasRole('MANAGER'));
 
 router.post('/', async (req, res, next) => {
   const { email, password, role = 'CUSTOMER' } = req.body;

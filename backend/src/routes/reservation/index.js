@@ -76,7 +76,7 @@ router.get('/:id', async (req, res, next) => {
   });
 });
 
-router.put('/status/:id', async (req, res, next) => {
+router.put('/status/:id', isLoggedIn, async (req, res, next) => {
   const { status } = req.body;
 
   const [error] = await safeAwait(
@@ -95,6 +95,18 @@ router.put('/status/:id', async (req, res, next) => {
   if (error) {
     next(error);
   }
+
+  const [secondError, user] = await safeAwait(models.User.findByPk(req.user.id));
+
+  user.addUserBalance(15);
+  user.save();
+
+  const [anotherError, manager] = await safeAwait(models.User.findOne({ where: {
+    role: 'MANAGER'
+  }}));
+
+  manager.addUserBalance(-15);
+  manager.save();
 
   return res.sendStatus(200);
 });

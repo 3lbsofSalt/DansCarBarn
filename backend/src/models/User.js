@@ -30,11 +30,13 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     this.balance = (this.balance ?? 0) - Number(amount);
+
     return true;
   }
 
   User.prototype.addUserBalance = function(amount) {
     this.balance = (this.balance ?? 0) + Number(amount);
+    console.log(this.balance);
     this.save();
     return true;
   }
