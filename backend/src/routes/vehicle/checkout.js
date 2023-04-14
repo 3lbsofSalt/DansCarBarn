@@ -21,43 +21,33 @@ router.post('/', async (req, res, next) => {
       start,
       end,
       status,
+      UserId: userId,
       vehicleId,
-      userId,
     });
-  
 
-  const trans = await models.Transaction.create({
-    // vehicleId,
-    total,
-    description,
-    type: 'RESERVATION',
-    ReservationId: reserv.id,
-    userId
-  });
 
-  const user = await models.User.findByPk(userId);
-  const available = user.subtractUserBalance(total);
+    const user = await models.User.findByPk(userId);
+    const available = user.subtractUserBalance(total);
 
-  if (!available) {
-    return res.sendStatus(400);
+    if (!available) {
+      return res.sendStatus(400);
+    }
+
+    const manager = await models.User.findOne({
+      where: {
+        role: 'MANAGER',
+      },
+    });
+
+    manager.addUserBalance(total);
+
+    manager.save();
+    user.save();
+
+    return res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
   }
-
-  const manager = await models.User.findOne({
-    where: {
-      role: 'MANAGER',
-    },
-  });
-
-  manager.addUserBalance(total);
-
-  manager.save();
-  user.save();
-
-  return res.sendStatus(200);
-} catch (err) {
-  console.log(err);
-}
 });
-
 
 export default router;
