@@ -34,8 +34,6 @@ router.post('/', async (req, res, next) => {
     role: 'MANAGER'
   }});
 
-  console.log(employee);
-
   employee.addUserBalance(total * .1);
   manager.addUserBalance(total * .9);
 
