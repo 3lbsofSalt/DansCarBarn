@@ -1,7 +1,7 @@
 <script setup>
 import VehicleClassLabel from './VehicleClassLabel.vue';
 
-const props = defineProps(['imgSrc', 'title', 'class']);
+const props = defineProps(['imgSrc', 'title', 'class', 'start', 'end']);
 </script>
 
 <template>
