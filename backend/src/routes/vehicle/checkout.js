@@ -11,15 +11,24 @@ router.post('/', async (req, res, next) => {
     userId,
     total,
     description,
-    employeeId,
+    start,
+    end,
+    status = 'SCHEDULED'
   } = req.body;
 
-  models.Transaction.create({
+  const reserv = await models.Reservation.create({
+    start,
+    end,
+    status
+  });
+
+  const trans = await models.Transaction.create({
     vehicleId,
     userId,
     total,
     description,
-    type: 'RESERVATION'
+    type: 'RESERVATION',
+    ReservationId: reserv.id
   });
 
   const user = await models.User.findByPk(userId);
@@ -29,15 +38,12 @@ router.post('/', async (req, res, next) => {
     return res.sendStatus(400);
   }
 
-  const employee = await models.User.findByPk(employeeId);
   const manager = await models.User.findOne({ where: {
     role: 'MANAGER'
   }});
 
-  employee.addUserBalance(total * .1);
   manager.addUserBalance(total * .9);
 
-  employee.save();
   manager.save();
   user.save();
 
