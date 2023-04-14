@@ -16,38 +16,42 @@ router.post('/', async (req, res, next) => {
     status = 'SCHEDULED',
   } = req.body;
 
-  try {
-    const reserv = await models.Reservation.create({
-      start,
-      end,
-      status,
-      UserId: userId,
-      vehicleId,
-    });
+  const reserv = await models.Reservation.create({
+    start,
+    end,
+    status,
+    UserId: userId,
+    vehicleId,
+  });
 
+  const trans = await models.Transaction.create({
+    vehicleId,
+    userId,
+    total,
+    description,
+    type: 'RESERVATION',
+    ReservationId: reserv.id,
+  });
 
-    const user = await models.User.findByPk(userId);
-    const available = user.subtractUserBalance(total);
+  const user = await models.User.findByPk(userId);
+  const available = user.subtractUserBalance(total);
 
-    if (!available) {
-      return res.sendStatus(400);
-    }
-
-    const manager = await models.User.findOne({
-      where: {
-        role: 'MANAGER',
-      },
-    });
-
-    manager.addUserBalance(total);
-
-    manager.save();
-    user.save();
-
-    return res.sendStatus(200);
-  } catch (err) {
-    console.log(err);
+  if (!available) {
+    return res.sendStatus(400);
   }
+
+  const manager = await models.User.findOne({
+    where: {
+      role: 'MANAGER',
+    },
+  });
+
+  manager.addUserBalance(total);
+
+  manager.save();
+  user.save();
+
+  return res.sendStatus(200);
 });
 
 export default router;

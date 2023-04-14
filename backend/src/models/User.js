@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       return false;
     }
 
-    this.balance = (this.balance ?? 0) - Number(amount);
+    this.balance = (this.balance ?? 0) + Number(amount);
     return true;
   }
 
