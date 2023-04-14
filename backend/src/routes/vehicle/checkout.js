@@ -5,14 +5,30 @@ import models from '../../models';
 import sequelize from 'sequelize';
 
 router.post('/', async (req, res, next) => {
-  const { vehicleId, userId, total, description } = req.body;
 
-  models.Transaction.create({
+  const {
+    vehicleId,
+    userId,
+    total,
+    description,
+    start,
+    end,
+    status = 'SCHEDULED'
+  } = req.body;
+
+  const reserv = await models.Reservation.create({
+    start,
+    end,
+    status
+  });
+
+  const trans = await models.Transaction.create({
     vehicleId,
     userId,
     total,
     description,
     type: 'RESERVATION',
+    ReservationId: reserv.id
   });
 
   const user = await models.User.findByPk(userId);
@@ -22,13 +38,11 @@ router.post('/', async (req, res, next) => {
     return res.sendStatus(400);
   }
 
-  const manager = await models.User.findOne({
-    where: {
-      role: 'MANAGER',
-    },
-  });
+  const manager = await models.User.findOne({ where: {
+    role: 'MANAGER'
+  }});
 
-  manager.addUserBalance(total * 0.9);
+  manager.addUserBalance(total * .9);
 
   manager.save();
   user.save();
