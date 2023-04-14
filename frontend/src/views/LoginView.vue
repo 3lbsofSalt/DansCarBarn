@@ -14,11 +14,7 @@
         type="password"
         hide-details="auto"
       ></v-text-field>
-      <v-btn
-        variant="tonal"
-        size="large"
-        @click="login"
-      >Login</v-btn>
+      <v-btn variant="tonal" size="large" @click="login">Login</v-btn>
     </div>
   </div>
 </template>
