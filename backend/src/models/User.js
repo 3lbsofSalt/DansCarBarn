@@ -16,6 +16,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       default: true,
     },
+  }, {
+    classMethods: {
+      associate: function(models) {
+        User.hasMany(models.Transaction);
+      }
+    }
   });
 
   User.prototype.subtractUserBalance = function(amount) {

@@ -3,6 +3,7 @@ const router = express.Router();
 
 import safeAwait from 'safe-await';
 import models from '../../models';
+import { isLoggedIn } from '../../lib/auth';
 
 router.post('/', async (req, res, next) => {
   const {
@@ -41,6 +42,24 @@ router.get('/', async (req, res, next) => {
   return res.status(200).json({
     results,
   });
+});
+
+
+router.get('/me', isLoggedIn, async (req, res, next) => {
+  const [error, results] = await safeAwait(models.Reservation.findAll(
+    {
+      where: {
+        UserId: req.user.id
+      },
+      include: [{
+        model: models.Vehicle
+      }],
+    }
+  ));
+
+  if (error) return next(error);
+
+  return res.status(200).json(results)
 });
 
 router.get('/:id', async (req, res, next) => {

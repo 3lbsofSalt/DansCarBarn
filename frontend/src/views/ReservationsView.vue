@@ -1,8 +1,10 @@
 <script setup>
 import ReservationsUpcomingCard from '../components/ReservationsUpcomingCard.vue';
 import ReservationsCurrPastCard from '../components/ReservationsCurrPastCard.vue';
+import { getUserReservations } from '../api/reservation';
+import { ref, computed } from 'vue';
 
-const vehicles = [
+const vehicles = ref([
   {
     id: 1,
     title: 'Ford Pinto 1972',
@@ -17,7 +19,17 @@ const vehicles = [
     imgSrc:
       'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
   },
-];
+]);
+
+const loadReservations = async () => {
+  vehicles.value = await getUserReservations();
+}
+
+const currentReservations = computed(() => vehicles.value.filter(res => res.status == 'IN_TRANSIT'));
+const upcomingReservations = computed(() => vehicles.value.filter(res => res.status == 'SCHEDULED'));
+const pastReservations = computed(() => vehicles.value.filter(res => res.status == 'RETURNED'));
+
+loadReservations();
 
 const onDelete = (id) => {
   console.log('DELETE VEHICLE with ID', id);
@@ -34,12 +46,14 @@ const onDelete = (id) => {
 
     <div class="vehicles-list d-flex flex-column">
       <ReservationsUpcomingCard
-        v-for="vehicle in vehicles"
-        :key="vehicle.id"
-        :title="vehicle.title"
-        :class="vehicle.class"
-        :imgSrc="vehicle.imgSrc"
-        @delete="() => onDelete(vehicle.id)"
+        v-for="res in upcomingReservations"
+        :key="res.Vehicle.id"
+        :title="res.Vehicle.title"
+        :class="res.Vehicle.class"
+        :imgSrc="res.Vehicle.image"
+        :start="res.start"
+        :end="res.end"
+        @delete="() => onDelete(res.Vehicle.id)"
       />
     </div>
 
@@ -47,12 +61,14 @@ const onDelete = (id) => {
 
     <div class="vehicles-list d-flex flex-column">
       <ReservationsCurrPastCard
-        v-for="vehicle in vehicles"
-        :key="vehicle.id"
-        :title="vehicle.title"
-        :class="vehicle.class"
-        :imgSrc="vehicle.imgSrc"
-        @delete="() => onDelete(vehicle.id)"
+        v-for="res in currentReservations"
+        :key="res.Vehicle.id"
+        :title="res.Vehicle.title"
+        :class="res.Vehicle.class"
+        :imgSrc="res.Vehicle.image"
+        :start="res.start"
+        :end="res.end"
+        @delete="() => onDelete(res.Vehicle.id)"
       />
     </div>
 
@@ -60,12 +76,14 @@ const onDelete = (id) => {
 
     <div class="vehicles-list d-flex flex-column">
       <ReservationsCurrPastCard
-        v-for="vehicle in vehicles"
-        :key="vehicle.id"
-        :title="vehicle.title"
-        :class="vehicle.class"
-        :imgSrc="vehicle.imgSrc"
-        @delete="() => onDelete(vehicle.id)"
+        v-for="res in pastReservations"
+        :key="res.Vehicle.id"
+        :title="res.Vehicle.title"
+        :class="res.Vehicle.class"
+        :imgSrc="res.Vehicle.image"
+        :start="res.start"
+        :end="res.end"
+        @delete="() => onDelete(res.Vehicle.id)"
       />
     </div>
 
