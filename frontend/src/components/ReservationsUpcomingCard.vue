@@ -1,7 +1,8 @@
 <script setup>
 import VehicleClassLabel from './VehicleClassLabel.vue';
 
-const props = defineProps(['imgSrc', 'title', 'class']);
+const props = defineProps(['imgSrc', 'title', 'class', 'start', 'end']);
+const emit = defineEmits(['cancel']);
 </script>
 
 <template>
@@ -12,7 +13,7 @@ const props = defineProps(['imgSrc', 'title', 'class']);
 
     <div class="car-details d-flex w-100 h-100 flex-column">
       <div>
-        <em><b>Start Time - End Time</b></em>
+        <em><b>{{ new Date(props.start).toDateString() }} - {{ new Date(props.end).toDateString() }}</b></em>
       </div>
       <div class="d-flex flex-row w-100">
         <span class="car-title d-flex flex-grow-1 font-weight-black">{{
@@ -26,7 +27,7 @@ const props = defineProps(['imgSrc', 'title', 'class']);
           <VehicleClassLabel :class="props.class" />
         </span>
         <span class="d-flex flex-row flex-grow-1 align-end justify-end">
-          <v-btn color="#dd776a">
+          <v-btn color="#dd776a" @click="emit('cancel')">
           CANCEL
         </v-btn>
         </span>

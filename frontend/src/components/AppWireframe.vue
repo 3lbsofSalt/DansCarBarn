@@ -1,8 +1,18 @@
 <script setup>
 import { RouterView } from 'vue-router';
 import { useUserStore } from '../stores/user';
+import { getSelf } from '../api/user';
+import { ref } from 'vue';
 
 const { userToken } = useUserStore();
+const userBalance = ref(0);
+
+getSelf().then((res) => {
+  console.log(res)
+        if (res.user.balance != null) {
+          userBalance.value = res.user.balance;
+        }
+        })
 </script>
 
 <template>
@@ -19,7 +29,7 @@ const { userToken } = useUserStore();
         >
         <v-btn
           variant="flat"
-          :to="{ name: 'manage-reservations' }"
+          :to="{ name: 'manage' }"
           v-if="['EMPLOYEE', 'MANAGER'].includes(userToken.payload.role)"
         >Manage</v-btn>
       </div>
@@ -28,6 +38,7 @@ const { userToken } = useUserStore();
         id="app-navbar-profile-box"
         class="navbar-group d-flex flex-grow-1 justify-end"
       >
+        <span>Balance: ${{ userBalance }}</span>
         <v-btn icon="mdi-account-circle" :to="{ name: 'user'}"/>
       </div>
     </div>

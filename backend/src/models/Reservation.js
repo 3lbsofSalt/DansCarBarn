@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
       associate: function(models) {
         Reservation.belongsTo(models.User);
         Reservation.belongsTo(models.Vehicle);
-        Reservation.hasOne(models.Vehicle);
         Reservation.hasOne(models.Transaction);
       }
     }
