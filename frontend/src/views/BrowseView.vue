@@ -17,7 +17,12 @@
     </div>
     <div class="gridBrowsePinto">
       <v-card v-for="car of carsFiltered" :key="car.id" elevation="3">
-        <v-img class="white--text align-end" width="100%" :src="car.image" />
+        <v-img
+          class="white--text align-end"
+          width="100%"
+          height="200px"
+          :src="car.image"
+        />
         <v-card-title>
           <div class="browseCarTitle">
             <div>{{ car.make + ' ' + car.model }}</div>
@@ -65,6 +70,7 @@
       <v-img
         class="white--text align-end"
         width="100%"
+        height="100%"
         :src="currentVehicleDialog.image"
       />
       <div class="dialog">
