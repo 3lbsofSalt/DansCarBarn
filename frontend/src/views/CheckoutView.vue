@@ -74,7 +74,7 @@ function checkout() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      vehicleId: route['id'],
+      vehicleId: params['id'],
       userId: userSelf.user.id,
       total: insurance.value
         ? Math.round(parseInt(total.value)) + 10
