@@ -1,7 +1,26 @@
 <script setup>
+import { computed } from 'vue';
 import VehicleClassLabel from './VehicleClassLabel.vue';
 
-const props = defineProps(['imgSrc', 'title', 'class']);
+const props = defineProps(['imgSrc', 'title', 'class', 'start', 'end', 'email', 'status']);
+const emit = defineEmits(['pickup', 'return'])
+
+const buttonTextDict = {
+  'SCHEDULED': 'PICKUP',
+  'IN_TRANSIT': 'RETURN'
+};
+
+const buttonText = computed(() => {
+  return buttonTextDict[props.status] ?? 'PICKUP';
+});
+
+const onClick = () => {
+  if (props.status == 'SCHEDULED') {
+    emit('pickup');
+  } else {
+    emit('return');
+  }
+}
 </script>
 
 <template>
@@ -12,7 +31,7 @@ const props = defineProps(['imgSrc', 'title', 'class']);
 
     <div class="car-details d-flex w-100 h-100 flex-column">
       <div>
-        <em><b>Start Time - End Time</b></em>
+        <em><b>{{ new Date(props.start).toDateString() }} - {{ new Date(props.end).toDateString() }}</b></em>
       </div>
       <div class="d-flex flex-row w-100">
         <span class="car-title d-flex flex-grow-1 font-weight-black">{{
@@ -26,20 +45,14 @@ const props = defineProps(['imgSrc', 'title', 'class']);
           <VehicleClassLabel :class="props.class" />
         </span>
         <div>
-          <span class="d-flex flex-row flex-grow-1">
-          John P. Customer
-        </span>
         <span small class="d-flex flex-row flex-grow-1">
-          john.p.customer@gmail.com
-        </span>
-        <span>
-          (123)-456-7890
+          {{ props.email }}
         </span>
         </div>
         <span class="d-flex flex-row flex-grow-1 align-end justify-end">
-          <v-btn color="#C1E4E6">
-          PICKUP
-        </v-btn>
+          <v-btn color="#C1E4E6" @click="onClick">
+            {{ buttonText }}
+          </v-btn>
         </span>
       </div>
       

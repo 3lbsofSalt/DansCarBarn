@@ -33,15 +33,15 @@ router.post('/', async (req, res, next) => {
 });
 
 router.get('/', async (req, res, next) => {
-  const [error, results] = await safeAwait(models.Reservation.findAll());
+  const [error, results] = await safeAwait(models.Reservation.findAll({
+    include: [models.Vehicle, models.User]
+  }));
 
   if (error) {
     return next(error);
   }
 
-  return res.status(200).json({
-    results,
-  });
+  return res.status(200).json(results);
 });
 
 
