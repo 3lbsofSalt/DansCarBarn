@@ -27,6 +27,9 @@ import { onMounted, ref } from 'vue';
 import fetch from '../api';
 import { useRoute, useRouter } from 'vue-router';
 import { getSelf } from '../api/user';
+import { useUserStore } from '../stores/user';
+
+const { refreshBalance } = useUserStore();
 
 const route = useRoute();
 const router = useRouter();
@@ -67,8 +70,8 @@ onMounted(() => {
   getSelf().then((r) => (userSelf = r));
 });
 
-function checkout() {
-  fetch(vehiclesUrl + 'checkout', {
+async function checkout() {
+  await fetch(vehiclesUrl + 'checkout', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -89,7 +92,9 @@ function checkout() {
     } else if(r.status === 400) {
       errorText.value = true;
     }
-  })
+  });
+
+  await refreshBalance();
 }
 </script>
 

@@ -2,6 +2,9 @@
 import { ref, computed } from 'vue';
 import ManageReservationsCard from '../../components/ManageReservationsCard.vue';
 import { getAllReservations, setReservationStatus } from '../../api/reservation';
+import { useUserStore } from '../../stores/user';
+
+const { refreshBalance } = useUserStore();
 
 const reservations = ref([]);
 
@@ -22,11 +25,13 @@ const makeVehicleTitle = (vehicle) =>
 const onPickup = async (id) => {
   await setReservationStatus(id, 'IN_TRANSIT');
   loadReservations();
+  refreshBalance();
 };
 
 const onReturn = async (id) => {
   await setReservationStatus(id, 'RETURNED');
   loadReservations();
+  refreshBalance();
 }
 </script>
 
