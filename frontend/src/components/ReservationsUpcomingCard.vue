@@ -2,6 +2,7 @@
 import VehicleClassLabel from './VehicleClassLabel.vue';
 
 const props = defineProps(['imgSrc', 'title', 'class', 'start', 'end']);
+const emit = defineEmits(['cancel']);
 </script>
 
 <template>
@@ -26,7 +27,7 @@ const props = defineProps(['imgSrc', 'title', 'class', 'start', 'end']);
           <VehicleClassLabel :class="props.class" />
         </span>
         <span class="d-flex flex-row flex-grow-1 align-end justify-end">
-          <v-btn color="#dd776a">
+          <v-btn color="#dd776a" @click="emit('cancel')">
           CANCEL
         </v-btn>
         </span>

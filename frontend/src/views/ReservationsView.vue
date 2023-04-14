@@ -1,7 +1,7 @@
 <script setup>
 import ReservationsUpcomingCard from '../components/ReservationsUpcomingCard.vue';
 import ReservationsCurrPastCard from '../components/ReservationsCurrPastCard.vue';
-import { getUserReservations } from '../api/reservation';
+import { getUserReservations, setReservationStatus } from '../api/reservation';
 import { ref, computed } from 'vue';
 
 const vehicles = ref([
@@ -31,8 +31,9 @@ const pastReservations = computed(() => vehicles.value.filter(res => res.status 
 
 loadReservations();
 
-const onDelete = (id) => {
-  console.log('DELETE VEHICLE with ID', id);
+const onCancel = async (id) => {
+  await setReservationStatus(id, 'CANCELED');
+  loadReservations();
 };
 </script>
 
@@ -53,7 +54,7 @@ const onDelete = (id) => {
         :imgSrc="res.Vehicle.image"
         :start="res.start"
         :end="res.end"
-        @delete="() => onDelete(res.Vehicle.id)"
+        @cancel="() => onCancel(res.id)"
       />
     </div>
 
@@ -68,7 +69,6 @@ const onDelete = (id) => {
         :imgSrc="res.Vehicle.image"
         :start="res.start"
         :end="res.end"
-        @delete="() => onDelete(res.Vehicle.id)"
       />
     </div>
 
@@ -83,7 +83,6 @@ const onDelete = (id) => {
         :imgSrc="res.Vehicle.image"
         :start="res.start"
         :end="res.end"
-        @delete="() => onDelete(res.Vehicle.id)"
       />
     </div>
 

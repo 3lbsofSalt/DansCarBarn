@@ -9,4 +9,16 @@ const getUserReservations = () => {
     }).then((response) => response.json());
 };
 
-export { getUserReservations };
+const setReservationStatus = (reservationId, status) => {
+  return fetch(`/reservation/status/${reservationId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      status
+    })
+  });
+}
+
+export { getUserReservations, setReservationStatus };
