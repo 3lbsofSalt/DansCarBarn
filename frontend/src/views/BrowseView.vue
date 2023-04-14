@@ -17,11 +17,7 @@
     </div>
     <div class="gridBrowsePinto">
       <v-card v-for="car of carsFiltered" :key="car.id" elevation="3">
-        <v-img
-          class="white--text align-end"
-          width="100%"
-          src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.mecum.com%2Fauctions%2Fpj0617%2Fpj0617-287856%2Fimages%2Fpj0617-287856_3%402x.jpg%3F1496865185000&f=1&nofb=1&ipt=dd41511128908d90568dcdb741dd0ddf28903f35dfa672dfa7310bb80bc0004e&ipo=images"
-        />
+        <v-img class="white--text align-end" width="100%" :src="car.image" />
         <v-card-title>
           <div class="browseCarTitle">
             <div>{{ car.make + ' ' + car.model }}</div>
@@ -69,7 +65,7 @@
       <v-img
         class="white--text align-end"
         width="100%"
-        src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn1.mecum.com%2Fauctions%2Fpj0617%2Fpj0617-287856%2Fimages%2Fpj0617-287856_3%402x.jpg%3F1496865185000&f=1&nofb=1&ipt=dd41511128908d90568dcdb741dd0ddf28903f35dfa672dfa7310bb80bc0004e&ipo=images"
+        :src="currentVehicleDialog.image"
       />
       <div class="dialog">
         <v-card-title style="font-weight: 700">
