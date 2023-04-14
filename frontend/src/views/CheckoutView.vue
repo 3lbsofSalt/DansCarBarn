@@ -15,6 +15,10 @@
     </div>
     <v-checkbox v-model="insurance" label="Insurance?  + $10" />
     <v-btn @click="checkout">Checkout</v-btn>
+    <p
+      v-if="errorText"
+      class="pa-3"
+    >You don't have enough money for this</p>
   </div>
 </template>
 
@@ -28,6 +32,7 @@ const route = useRoute();
 const router = useRouter();
 
 const insurance = ref(false);
+ const errorText = ref(false);
 
 const params = route.params;
 
@@ -81,8 +86,10 @@ function checkout() {
   }).then((r) => {
     if (r.statusText === 'OK') {
       router.push('/');
+    } else if(r.status === 400) {
+      errorText.value = true;
     }
-  });
+  })
 }
 </script>
 
