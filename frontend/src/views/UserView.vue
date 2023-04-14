@@ -3,6 +3,7 @@
     <div class="login-container d-flex flex-column">
       <h1 class="dcb-title">DCB</h1>
 
+      <!--
       <v-text-field
         v-model="firstname"
         label="First Name"
@@ -48,6 +49,7 @@
         size="large"
       >Reset Password</v-btn>
 
+      -->
       <v-text-field
         v-model="balance"
         label="Add to Balance"
