@@ -6,13 +6,12 @@ import sequelize from 'sequelize';
 
 router.post('/', async (req, res, next) => {
 
-  const t = await sequelize.transaction();
-
   const {
     vehicleId,
     userId,
     total,
-    description
+    description,
+    employeeId,
   } = req.body;
 
   models.Transaction.create({
@@ -21,19 +20,28 @@ router.post('/', async (req, res, next) => {
     total,
     description,
     type: 'RESERVATION'
-  }, {
-    transaction: t
   });
 
   const user = await models.User.findByPk(userId);
+  const available = user.subtractUserBalance(total);
 
-  user.modifyUserBalance(-(total));
+  if(!available) {
+    return res.sendStatus(400);
+  }
 
-  user.save({ transaction: t });
+  const employee = await models.User.findByPk(employeeId);
+  const manager = await models.User.findOne({ where: {
+    role: 'MANAGER'
+  }});
 
-  const [error] = await safeAwait(t.commit());
+  console.log(employee);
 
-  console.log(error);
+  employee.addUserBalance(total * .1);
+  manager.addUserBalance(total * .9);
+
+  employee.save();
+  manager.save();
+  user.save();
 
   return res.sendStatus(200);
 });

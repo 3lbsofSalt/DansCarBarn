@@ -15,9 +15,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  User.prototype.modifyUserBalance = function(amount) {
+  User.prototype.subtractUserBalance = function(amount) {
+    if(this.balance < amount) {
+      return false;
+    }
+
     this.balance -= amount;
-    return this;
+    return true;
+  }
+
+  User.prototype.addUserBalance = function(amount) {
+    this.balance += amount;
+    return true;
   }
 
   User.prototype.checkPassword = async function (password) {

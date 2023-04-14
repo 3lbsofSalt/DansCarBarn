@@ -4,6 +4,9 @@ import { Op } from 'sequelize';
 
 import safeAwait from 'safe-await';
 import models from '../../models';
+import checkout from './checkout.js';
+
+router.use('/checkout', checkout);
 
 router.post('/', async (req, res, next) => {
   const { make, model, year, price_class, image } = req.body;
