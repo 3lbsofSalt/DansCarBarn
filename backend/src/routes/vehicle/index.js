@@ -98,7 +98,6 @@ router.get('/browse', async (req, res, next) => {
     start, // Takes the form "MM/DD/YYYY"
     end, // Takes the form "MM/DD/YYYY"
   } = req.query;
-
   const [error, results] = await safeAwait(
     models.Vehicle.findAll({
       include: [
@@ -154,6 +153,27 @@ router.get('/browse', async (req, res, next) => {
   return res.status(200).json({
     results: finalResults,
   });
+});
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const [error, results] = await safeAwait(
+      models.Vehicle.findOne({
+        where: {
+          id: req.params.id,
+        },
+      })
+    );
+
+    if (error) {
+      return next(error);
+    }
+    return res.json(results);
+  } catch (err) {
+    console.log(err);
+    console.log('------');
+    console.log(req.params.id);
+  }
 });
 
 export default router;
