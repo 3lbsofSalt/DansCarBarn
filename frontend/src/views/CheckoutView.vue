@@ -22,7 +22,7 @@
       est total
     </div>
     <v-checkbox v-model="insurance" label="Insurance?  + $10" />
-    <v-btn>Checkout</v-btn>
+    <v-btn @click="checkout">Checkout</v-btn>
   </div>
 </template>
 
@@ -51,6 +51,16 @@ onMounted(() => {
       car.value = r;
     });
 });
+
+function checkout() {
+  fetch(vehiclesUrl + 'checkout', {
+    method: 'POST',
+    body: JSON.stringify({
+      vehicleId: route['id'],
+      
+    }),
+  });
+}
 </script>
 
 <style scoped></style>
