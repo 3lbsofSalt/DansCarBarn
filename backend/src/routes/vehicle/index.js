@@ -5,6 +5,9 @@ import { Op } from 'sequelize';
 
 import safeAwait from 'safe-await';
 import models from '../../models';
+import checkout from './checkout.js';
+
+router.use('/checkout', checkout);
 
 router.use(isLoggedIn);
 
