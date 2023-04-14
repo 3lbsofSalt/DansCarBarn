@@ -2,17 +2,13 @@
 import { RouterView } from 'vue-router';
 import { useUserStore } from '../stores/user';
 import { getSelf } from '../api/user';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
-const { userToken } = useUserStore();
-const userBalance = ref(0);
+const userStore = useUserStore();
+const { userToken, balance } = storeToRefs(userStore);
 
-getSelf().then((res) => {
-  console.log(res)
-        if (res.user.balance != null) {
-          userBalance.value = res.user.balance;
-        }
-        })
+userStore.refreshBalance();
 </script>
 
 <template>
@@ -38,7 +34,7 @@ getSelf().then((res) => {
         id="app-navbar-profile-box"
         class="navbar-group d-flex flex-grow-1 justify-end"
       >
-        <span>Balance: ${{ userBalance }}</span>
+        <span>Balance: ${{ balance }}</span>
         <v-btn icon="mdi-account-circle" :to="{ name: 'user'}"/>
       </div>
     </div>

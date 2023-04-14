@@ -76,42 +76,32 @@
   </div>
 </template>
 
-<script>
+<script setup>
  import { addBalance, getSelf } from '../api/user.js';
  import { useRouter } from 'vue-router';
- export default {
-   data: () => ({
-     firstname: '',
-     lastname: '',
-     phonenumber: '',
-     address: '',
-     password: '',
-     balance: '',
-     userId: '',
-     added: false
-   }),
-   mounted: function() {
-     this.getUser();
-   },
-   methods: {
-     getUser: function() {
-       getSelf()
-        .then((res) => {
-          this.userId = res.user.id;
-        });
-     },
-     logout: function() {
-       localStorage.removeItem('auth');
-     },
-     updateBalance: function() {
-       if(this.userId === '') return
-       addBalance(this.userId, this.balance)
-        .then(() => {
-          this.added = true;
-        });
-     }
-   },
- };
+import { useUserStore } from '../stores/user';
+import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+
+const { refreshBalance } = useUserStore();
+const userStore = useUserStore();
+const { userToken } = storeToRefs(userStore);
+
+const balance = ref(0);
+const added = ref(false);
+
+const logout = () => {
+  localStorage.removeItem('auth');
+}
+
+const updateBalance = async () => {
+  if(!userToken.value.payload.id) return
+  await addBalance(userToken.value.payload.id, balance.value)
+  .then(() => {
+    added.value = true;
+  });
+  await userStore.refreshBalance();
+}
 </script>
 
 <style scoped>
