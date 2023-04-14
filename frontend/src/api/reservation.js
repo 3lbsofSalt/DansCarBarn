@@ -1,5 +1,14 @@
 import fetch from './';
 
+const getAllReservations = () => {
+  return fetch('/reservation', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((response) => response.json());
+};
+
 const getUserReservations = () => {
     return fetch('/reservation/me', {
       method: 'GET',
@@ -21,4 +30,4 @@ const setReservationStatus = (reservationId, status) => {
   });
 }
 
-export { getUserReservations, setReservationStatus };
+export { getAllReservations, getUserReservations, setReservationStatus };

@@ -1,26 +1,33 @@
 <script setup>
+import { ref, computed } from 'vue';
 import ManageReservationsCard from '../../components/ManageReservationsCard.vue';
+import { getAllReservations, setReservationStatus } from '../../api/reservation';
 
-const vehicles = [
-  {
-    id: 1,
-    title: 'Ford Pinto 1972',
-    class: 'gold',
-    imgSrc:
-      'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
-  },
-  {
-    id: 2,
-    title: 'Ford Pinto 1972',
-    class: 'gold',
-    imgSrc:
-      'https://www.oldcarsweekly.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cq_auto:good%2Cw_1200/MTcyODc1NjA2NTcxMDk5MzM0/1972-ford-pinto.png',
-  },
-];
+const reservations = ref([]);
 
-const onDelete = (id) => {
-  console.log('DELETE VEHICLE with ID', id);
+const filteredReservations = computed(() => reservations.value.filter((res) => {
+  return res.status == 'SCHEDULED' || res.status == 'IN_TRANSIT';
+}));
+
+const loadReservations = async () => {
+  reservations.value = await getAllReservations();
+  console.log(reservations.value);
 };
+
+loadReservations();
+
+const makeVehicleTitle = (vehicle) =>
+  `${vehicle.make} ${vehicle.model} ${vehicle.year}`;
+
+const onPickup = async (id) => {
+  await setReservationStatus(id, 'IN_TRANSIT');
+  loadReservations();
+};
+
+const onReturn = async (id) => {
+  await setReservationStatus(id, 'RETURNED');
+  loadReservations();
+}
 </script>
 
 <template>
@@ -33,12 +40,17 @@ const onDelete = (id) => {
 
     <div class="vehicles-list d-flex flex-column">
       <ManageReservationsCard
-        v-for="vehicle in vehicles"
-        :key="vehicle.id"
-        :title="vehicle.title"
-        :class="vehicle.class"
-        :imgSrc="vehicle.imgSrc"
-        @delete="() => onDelete(vehicle.id)"
+        v-for="res in filteredReservations"
+        :key="res.id"
+        :title="makeVehicleTitle(res.Vehicle)"
+        :class="res.Vehicle.class"
+        :imgSrc="res.Vehicle.image"
+        :start="res.start"
+        :end="res.end"
+        :email="res.User.email"
+        :status="res.status"
+        @pickup="() => onPickup(res.id)"
+        @return="() => onReturn(res.id)"
       />
     </div>
   </div>

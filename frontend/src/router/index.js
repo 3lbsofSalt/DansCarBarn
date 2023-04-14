@@ -40,7 +40,7 @@ const router = createRouter({
           path: 'manage',
           name: 'manage',
           component: ManageView,
-          redirect: { name: 'manage-vehicles' },
+          redirect: { name: 'manage-reservations' },
           beforeEnter: roleGuard('EMPLOYEE', 'MANAGER'),
           children: [
             {
