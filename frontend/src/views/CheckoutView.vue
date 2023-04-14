@@ -21,10 +21,11 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import fetch from '../api';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { getSelf } from '../api/user';
 
 const route = useRoute();
+const router = useRouter();
 
 const insurance = ref(false);
 
@@ -38,7 +39,7 @@ const vehiclesUrl = 'http://localhost:3001/vehicle/';
 const car = ref('Loading');
 const total = ref(0);
 
-let userSelf;
+let userSelf = "";
 
 onMounted(() => {
   fetch(vehiclesUrl + params['id'], {})
@@ -64,26 +65,22 @@ onMounted(() => {
 function checkout() {
   fetch(vehiclesUrl + 'checkout', {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
       vehicleId: route['id'],
-      userId: userSelf.id,
-      total: insurance.value ? total.value + 10 : total.value,
-      description: insurance.value
-        ? 'This vehicle was reserved with insurance'
-        : 'This vehicle was reserved without insurance',
+      userId: userSelf.user.id,
+      total: insurance.value
+        ? Math.round(parseInt(total.value)) + 10
+        : Math.round(parseInt(total.value)),
+      description: insurance.value ? 'with insurance' : 'without insurance',
     }),
-  }).then(
-    console.log(
-      JSON.stringify({
-        vehicleId: route['id'],
-        userId: userSelf.id,
-        total: insurance.value ? total.value + 10 : total.value,
-        description: insurance.value
-          ? 'This vehicle was reserved with insurance'
-          : 'This vehicle was reserved without insurance',
-      })
-    )
-  );
+  }).then((r) => {
+    if (r.statusText === 'OK') {
+      router.push('/');
+    }
+  });
 }
 </script>
 
