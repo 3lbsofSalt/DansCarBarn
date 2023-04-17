@@ -60,3 +60,8 @@ The frontend and backend are built/tested independently from each other. For fur
 ## Sprint Reports Path
 
 `DansCarBarn/docs/planning/`
+
+## Some Test User Credentials (For now, these are only located on the database on Max's computer, but will be available in production should we decide to do that)
+Manager Role: manager@test.com test1
+Employee Role: employee@test.com test1
+Customer Role: customer@test.com test1
